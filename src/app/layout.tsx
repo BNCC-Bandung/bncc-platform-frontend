@@ -3,6 +3,7 @@ import { Inter as FontSans } from "next/font/google";
 
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/theme/theme-provider";
+import { ModeToggle } from "@/components/theme/theme-toggle";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -29,6 +30,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          <div className="absolute right-5 top-5">
+            <ModeToggle />
+          </div>
           {children}
         </ThemeProvider>
       </body>

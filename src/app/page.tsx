@@ -1,9 +1,14 @@
-import { ModeToggle } from "@/components/theme/theme-toggle";
+import { LoginForm } from "@/components/login/login-form";
+import Footer from "@/components/misc/footer";
 
-export default function Home() {
+export default function Page() {
   return (
-    <div className="flex h-[100dvh] w-screen justify-center items-center">
-      <ModeToggle />
-    </div>
+    <>
+      <div className="flex justify-center items-center h-screen">
+        <LoginForm />
+      </div>
+
+      <Footer />
+    </>
   );
 }

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Label } from "../ui/label";
+
 import UnstyledLink from "../link/unstyled-link";
 import { SiInstagram, SiLinkedin, SiYoutube } from "react-icons/si";
 
@@ -42,7 +42,7 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="grid-cols-4 gap-10 mb-10 hidden lg:grid">
+      <div className="layout grid-cols-4 gap-10 mb-10 hidden lg:grid">
         <div className="flex flex-col">
           <Image
             src="/img/logo-lnt.png"

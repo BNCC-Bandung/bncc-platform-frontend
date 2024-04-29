@@ -1,3 +1,5 @@
+"use client";
+
 import { CourseCard } from "@/components/card/course-card";
 
 export default function Course() {

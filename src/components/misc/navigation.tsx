@@ -14,7 +14,7 @@ export default function Navigation() {
       <NavigationMenu className="p-1 rounded-md">
         <NavigationMenuList>
           <NavigationMenuItem>
-            <Link href="/dashboard" legacyBehavior passHref>
+            <Link href="/" legacyBehavior passHref>
               <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                 Dashboard
               </NavigationMenuLink>

@@ -10,7 +10,6 @@ export default function RootLayout({
   return (
     <>
       <Header />
-      <Navigation />
       <div className="min-h-screen bg-background font-sans antialiased">
         {children}
       </div>

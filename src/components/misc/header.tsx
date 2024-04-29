@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { ModeToggle } from "../theme/theme-toggle";
 import { SelectPeriod } from "../ui-interact/select-period";
+import Navigation from "./navigation";
 
 export default function Header() {
   return (
@@ -12,6 +13,7 @@ export default function Header() {
           height={40}
           alt="BNCC Logo"
         />
+        <Navigation />
         <div className="flex gap-2 items-center text-sm">
           <SelectPeriod />
           <ModeToggle />

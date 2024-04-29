@@ -1,3 +1,4 @@
+import { CourseCard } from "@/components/card/course-card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Card,
@@ -7,12 +8,14 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import { BookUser, ContactRound, Mail, MapPin, Phone } from "lucide-react";
 import Image from "next/image";
+import { data_course } from "../course/page";
 
 export default function Dashboard() {
   const username = "John Doe";
   return (
-    <div className="layout flex flex-col p-10 h-[calc(100svh-77px)]">
+    <div className="layout flex flex-col p-5 min-h-screen">
       <Card>
         <div className="flex gap-10 p-5">
           <Image
@@ -28,28 +31,43 @@ export default function Dashboard() {
             <div className="grid grid-cols-2">
               <div className="flex gap-4 flex-col">
                 <div>
-                  <p className="text-blue-400 font-bold">BNCC ID</p>
+                  <p className="text-blue-400 font-bold flex flex-row gap-1">
+                    <ContactRound />
+                    BNCC ID
+                  </p>
                   <p className="text-muted-foreground">BNCC2403003</p>
                 </div>
                 <div>
-                  <p className="text-blue-400 font-bold">NIM</p>
+                  <p className="text-blue-400 font-bold flex flex-row gap-1">
+                    <BookUser />
+                    NIM
+                  </p>
                   <p className="text-muted-foreground">2602123456</p>
                 </div>
                 <div>
-                  <p className="text-blue-400 font-bold">ADDRESS</p>
+                  <p className="text-blue-400 font-bold flex flex-row gap-1">
+                    <MapPin />
+                    ADDRESS
+                  </p>
                   <p className="text-muted-foreground">Bandung, Indonesia</p>
                 </div>
               </div>
               <div>
                 <div className="flex gap-4 flex-col">
                   <div>
-                    <p className="text-blue-400 font-bold">EMAIL</p>
+                    <p className="text-blue-400 font-bold flex flex-row gap-1">
+                      <Mail />
+                      EMAIL
+                    </p>
                     <p className="text-muted-foreground">
                       akiyama.mizuki@binus.ac.id
                     </p>
                   </div>
                   <div>
-                    <p className="text-blue-400 font-bold">PHONE NUMBER</p>
+                    <p className="text-blue-400 font-bold flex flex-row gap-1">
+                      <Phone />
+                      PHONE NUMBER
+                    </p>
                     <p className="text-muted-foreground">081234567890</p>
                   </div>
                 </div>
@@ -60,26 +78,25 @@ export default function Dashboard() {
       </Card>
 
       <div className="flex gap-10 mt-10 w-full flex-grow">
-        <Card className="w-full">
+        <Card className="w-full h-fit">
           <CardHeader>
             <CardTitle>Upcoming Class</CardTitle>
           </CardHeader>
 
-          <CardContent>
-            <CardDescription>
-              Looks like you don&apos;t have any upcoming classes.
-            </CardDescription>
+          <CardContent className="gap-4 flex flex-col ">
+            <CourseCard data={data_course} />
+            <CourseCard data={data_course} />
           </CardContent>
         </Card>
 
-        <Card className="w-full">
+        <Card className="w-full h-fit">
           <CardHeader>
             <CardTitle>Class Progress</CardTitle>
           </CardHeader>
 
           <CardContent>
             <div className="flex flex-col gap-4 justify-center items-center h-[400px]">
-              <div className="bg-white text-background flex justify-center items-center text-4xl font-extrabold font-mono rounded-full w-56 h-56">
+              <div className="bg-foreground text-background flex justify-center items-center text-4xl font-extrabold font-mono rounded-full w-56 h-56">
                 0/100
               </div>
 

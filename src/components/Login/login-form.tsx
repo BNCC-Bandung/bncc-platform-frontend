@@ -32,9 +32,8 @@ import type { AxiosError } from "axios";
 
 import { useRouter } from "next/navigation";
 
-import axios from "@/api/axios-instace";
-import { AuthContext } from "@/context/AuthContext";
-import { useContext, useState } from "react";
+import { useState } from "react";
+import be from "@/api/axios-instace";
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -42,7 +41,6 @@ const formSchema = z.object({
 });
 
 export function LoginForm() {
-  const { getProfile } = useContext(AuthContext)!;
   const [error, setError] = useState("");
   const router = useRouter();
 
@@ -52,9 +50,7 @@ export function LoginForm() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      await axios.post("http://localhost:5000/v1/auth/login", values);
-      getProfile();
-      setError("");
+      await be.post("http://localhost:5000/v1/auth/login", values);
       router.push("/");
       router.refresh();
     } catch (err) {

@@ -18,8 +18,7 @@ import {
   Timer,
 } from "lucide-react";
 import { SessionDataType } from "@/types/session-data-type";
-import { useContext, useState } from "react";
-import { AuthContext } from "@/context/AuthContext";
+
 import { DateTime } from "luxon";
 import Link from "next/link";
 
@@ -30,10 +29,6 @@ interface Props {
 }
 
 export function SessionCard({ session, isAttendance, isButtonHidden }: Props) {
-  const { userData } = useContext(AuthContext)!;
-  const [modalEdit, setModalEdit] = useState(false);
-  const [modalDelete, setModalDelete] = useState(false);
-
   const { id, title, sessionNumber, courseId, meetingUrl } = session;
 
   const date = DateTime.fromISO(session.startTime).toFormat("DD");
@@ -51,7 +46,7 @@ export function SessionCard({ session, isAttendance, isButtonHidden }: Props) {
   };
 
   return (
-    <Card className="w-full h-fit flex">
+    <Card key={id} className="w-full h-fit flex">
       <SiJavascript className="h-auto w-auto pl-6" size={150} />
       <div className="flex flex-col w-full">
         <CardHeader>

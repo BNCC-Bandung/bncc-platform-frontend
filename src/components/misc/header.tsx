@@ -6,11 +6,22 @@ import { SelectPeriod } from "../ui-interact/select-period";
 import Navigation from "./navigation";
 import { Button } from "../ui/button";
 import { useContext } from "react";
-import { AuthContext } from "@/context/AuthContext";
+
 import { LogOut } from "lucide-react";
+import be from "@/api/axios-instace";
+import { useRouter } from "next/navigation";
 
 export default function Header() {
-  const { logout } = useContext(AuthContext)!;
+  const router = useRouter();
+  async function handleLogout() {
+    try {
+      await be.delete("/auth/logout");
+      router.push("/login");
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   return (
     <header className="border-b">
       <div className="layout flex justify-between items-center">
@@ -24,7 +35,7 @@ export default function Header() {
         <div className="flex gap-2 items-center text-sm">
           <SelectPeriod />
           <ModeToggle />
-          <Button variant="destructive" onClick={logout}>
+          <Button variant="destructive" onClick={handleLogout}>
             Logout
             <LogOut size={15} className="ml-1" />
           </Button>

@@ -1,4 +1,5 @@
-import { Table, Download, Upload } from "lucide-react";
+import { Table } from "../ui/table";
+import { Download, Upload } from "lucide-react";
 
 import {
   TableCaption,

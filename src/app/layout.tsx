@@ -4,7 +4,6 @@ import { Inter as FontSans } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { ModeToggle } from "@/components/theme/theme-toggle";
-import { AuthContextProvider } from "@/context/AuthContext";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -25,16 +24,14 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
-        <AuthContextProvider>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="dark"
-            enableSystem
-            disableTransitionOnChange
-          >
-            {children}
-          </ThemeProvider>
-        </AuthContextProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

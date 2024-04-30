@@ -1,8 +1,9 @@
 import axios from 'axios';
+import { cookies } from 'next/headers';
 
-const instance = axios.create({
+const be = axios.create({
     baseURL: 'http://localhost:5000/v1',
-    withCredentials: true
+    withCredentials: true,
 });
 
-export default instance;
+export default be;

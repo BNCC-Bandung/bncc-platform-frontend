@@ -1,7 +1,13 @@
+"use client";
 import type { AxiosError } from "axios";
 import type { CourseType } from "../types/course-type";
 import type { SessionDataType } from "../types/session-data-type";
-import { createContext, useContext, useState } from "react";
+import {
+  createContext,
+  createServerContext,
+  useContext,
+  useState,
+} from "react";
 import axios from "@/api/axios-instace";
 import { AuthContext } from "./AuthContext";
 
@@ -71,10 +77,10 @@ const CourseContextProvider: React.FC<CourseContextProviderProps> = ({
 
   const value = {
     data,
+    error,
     setData,
     sessionData,
     setSessionData,
-    error,
     setError,
     getAllCourses,
     getCourse,

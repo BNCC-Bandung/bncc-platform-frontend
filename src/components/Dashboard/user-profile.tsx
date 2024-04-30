@@ -1,14 +1,12 @@
-"use client";
 import { ContactRound, BookUser, MapPin, Mail, Phone } from "lucide-react";
 import { Card, CardHeader, CardContent } from "../ui/card";
-import { AuthContext } from "@/context/AuthContext";
-import { useContext, useState } from "react";
 import Image from "next/image";
 import { Badge } from "../ui/badge";
+import { getProfile } from "@/api/course-context";
 
-export function UserProfile() {
-  const { userData } = useContext(AuthContext)!;
-  const { fullName, NIM, email, address, phone, role, bnccId } = userData;
+export async function UserProfile() {
+  const response = await getProfile();
+  const { fullName, NIM, email, address, phone, role, bnccId } = response;
 
   return (
     <Card className="flex gap-10 p-5">

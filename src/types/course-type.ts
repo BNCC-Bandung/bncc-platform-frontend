@@ -1,3 +1,5 @@
+import { SessionDataType } from "./session-data-type";
+
 interface CourseType<T> {
     data: T;
     setData: React.Dispatch<React.SetStateAction<T>>;

@@ -51,14 +51,12 @@ export function LoginForm() {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
     try {
-      await axios.post("/auth/login", values);
+      await axios.post("http://localhost:5000/v1/auth/login", values);
       getProfile();
       setError("");
       router.push("/");
+      router.refresh();
     } catch (err) {
       const axiosError = err as AxiosError<any>;
       setError(axiosError.response?.data.message);
@@ -116,6 +114,11 @@ export function LoginForm() {
             />
           </CardContent>
           <CardFooter className="flex-col gap-4">
+            {error && (
+              <FormDescription className="text-red-900">
+                {error}
+              </FormDescription>
+            )}
             <Button className="w-full">Sign in</Button>
             <CardDescription>
               Don&apos;t have a BNCC account?{" "}

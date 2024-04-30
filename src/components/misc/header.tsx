@@ -5,7 +5,6 @@ import { ModeToggle } from "../theme/theme-toggle";
 import { SelectPeriod } from "../ui-interact/select-period";
 import Navigation from "./navigation";
 import { Button } from "../ui/button";
-import { useContext } from "react";
 
 import { LogOut } from "lucide-react";
 import be from "@/api/axios-instace";

@@ -51,3 +51,17 @@ export async function getUpcomingSessions(courseId: number) {
     return response.data.data.sessions;
   } catch (err) {}
 }
+
+// Function to get all course submissions
+export async function getAllSubmissions() {
+  try {
+    const { courseId } = UserData.enrollments[0];
+    const response = await be.get(`/courses/${courseId}/submissions`, {
+      headers: {
+        Cookie: cookies().toString(),
+      },
+    });
+
+    return response.data.data.submissions;
+  } catch (err) {}
+}

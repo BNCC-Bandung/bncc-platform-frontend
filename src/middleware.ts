@@ -27,7 +27,6 @@ export default async function middleware(req: NextRequest) {
   if (isProtectedRoute && !session && refresh) {
     const url = req.nextUrl;
     url.searchParams.set("refresh", "true");
-    console.log("refresh");
 
     return NextResponse.redirect(url);
   }

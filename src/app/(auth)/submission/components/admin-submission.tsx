@@ -1,4 +1,4 @@
-import { Table } from "../ui/table";
+import { Table } from "@/components/ui/table";
 import { Download, Eye, Pencil, Trash, Upload } from "lucide-react";
 
 import {
@@ -8,13 +8,13 @@ import {
   TableHead,
   TableBody,
   TableCell,
-} from "../ui/table";
+} from "@/components/ui/table";
 import {
   dataAssignmentDummy,
   dataAssignmentSubmission,
   dataSubmissionAdminDummy,
 } from "./dummy/datadummy";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -23,7 +23,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Card } from "../ui/card";
+import { Card } from "@/components/ui/card";
 import { AddAssignment } from "./add-assignment";
 
 export default function AdminSubmission() {

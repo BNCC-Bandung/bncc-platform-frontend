@@ -21,6 +21,7 @@ import { SessionDataType } from "@/types/session-data-type";
 
 import { DateTime } from "luxon";
 import Link from "next/link";
+import UnstyledLink from "../link/unstyled-link";
 
 interface Props {
   session: SessionDataType;
@@ -75,12 +76,12 @@ export function SessionCard({ session, isAttendance, isButtonHidden }: Props) {
         </CardContent>
 
         <CardFooter className="flex-row">
-          <Link href={meetingUrl} passHref>
+          <UnstyledLink href={meetingUrl} nextLinkProps={{ passHref: true }}>
             <Button variant="secondary" size="sm" className="w-full gap-2">
               Join Class
               <LogIn size={15} />
             </Button>
-          </Link>
+          </UnstyledLink>
         </CardFooter>
       </div>
     </Card>

@@ -1,4 +1,4 @@
-import { Courses } from "@/components/Course/courses";
+import { Courses } from "./components/courses";
 
 export default function CoursePage() {
   return (

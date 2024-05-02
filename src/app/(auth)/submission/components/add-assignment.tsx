@@ -4,9 +4,9 @@ import {
   DialogTrigger,
   DialogContent,
   DialogTitle,
-} from "../ui/dialog";
+} from "@/components/ui/dialog";
 import { Eye, Download, Plus } from "lucide-react";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -14,8 +14,8 @@ import {
   CardTitle,
   CardDescription,
   CardFooter,
-} from "../ui/card";
-import { DialogHeader } from "../ui/dialog";
+} from "@/components/ui/card";
+import { DialogHeader } from "@/components/ui/dialog";
 import { dataAssignmentSubmission } from "./dummy/datadummy";
 
 import {
@@ -35,8 +35,8 @@ import { z } from "zod";
 import { AxiosError } from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
-import { Input } from "../ui/input";
-import StyledLink from "../link/styled-link";
+import { Input } from "@/components/ui/input";
+import StyledLink from "@/components/link/styled-link";
 
 const formSchema = z.object({
   email: z.string().email(),

@@ -1,7 +1,7 @@
 import { ContactRound, BookUser, MapPin, Mail, Phone } from "lucide-react";
-import { Card, CardHeader, CardContent } from "../ui/card";
+import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import Image from "next/image";
-import { Badge } from "../ui/badge";
+import { Badge } from "@/components/ui/badge";
 import { getProfile } from "@/api/course-server-context";
 
 export async function UserProfile() {

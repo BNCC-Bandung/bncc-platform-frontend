@@ -1,4 +1,4 @@
-import { Table } from "../ui/table";
+import { Table } from "@/components/ui/table";
 import { Download, Upload } from "lucide-react";
 
 import {
@@ -8,10 +8,10 @@ import {
   TableHead,
   TableBody,
   TableCell,
-} from "../ui/table";
+} from "@/components/ui/table";
 import { dataAssignmentDummy } from "./dummy/datadummy";
-import { Button } from "../ui/button";
-import { Badge } from "../ui/badge";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 
 export default function UserSubmission() {
   return (

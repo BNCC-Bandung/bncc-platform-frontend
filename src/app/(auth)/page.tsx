@@ -1,6 +1,6 @@
-import { CoursesProgress } from "@/components/Dashboard/courses-progress";
-import { UpcomingCourses } from "@/components/Dashboard/upcoming-courses";
-import { UserProfile } from "@/components/Dashboard/user-profile";
+import { CoursesProgress } from "./components/courses-progress";
+import { UpcomingCourses } from "./components/upcoming-courses";
+import { UserProfile } from "./components/user-profile";
 
 export default function Dashboard() {
   return (

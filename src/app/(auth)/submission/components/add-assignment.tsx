@@ -5,7 +5,7 @@ import {
   DialogContent,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Eye, Download, Plus } from "lucide-react";
+import { Eye, Download, Plus, CalendarIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -17,6 +17,11 @@ import {
 } from "@/components/ui/card";
 import { DialogHeader } from "@/components/ui/dialog";
 import { dataAssignmentSubmission } from "./dummy/datadummy";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 import {
   Form,
@@ -37,14 +42,20 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import StyledLink from "@/components/link/styled-link";
+import { cn } from "@/lib/utils";
+import { format } from "date-fns";
+import { Calendar } from "@/components/ui/calendar";
+import { TimePicker } from "@/components/ui-interact/time-picker";
 
 const formSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(8),
+  title: z.string(),
+  deadline: z.date(),
+  course: z.string(),
 });
 
 export function AddAssignment() {
   const [error, setError] = useState("");
+  const [date, setDate] = useState<Date>();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -52,7 +63,7 @@ export function AddAssignment() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      await be.post("http://localhost:5000/v1/auth/login", values);
+      console.log(values);
     } catch (err) {
       const axiosError = err as AxiosError<any>;
       setError(axiosError.response?.data.message);
@@ -66,77 +77,89 @@ export function AddAssignment() {
           Add Assignment
         </Button>
       </DialogTrigger>
-      <DialogContent className="h-1/2">
+      <DialogContent className="h-fit">
         <DialogHeader>
-          <DialogTitle>Assignment Submission</DialogTitle>
+          <DialogTitle>Add Assignment</DialogTitle>
         </DialogHeader>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            <Card className="w-full max-w-sm">
-              <CardHeader>
-                <CardTitle className="flex justify-center">
-                  <Image
-                    src="/img/logo-lnt.png"
-                    width={250}
-                    height={40}
-                    alt="BNCC Logo"
-                  />{" "}
-                </CardTitle>
-                <CardDescription>
-                  Enter your email below to login to your account.
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="grid gap-4">
-                <FormField
-                  control={form.control}
-                  name="email"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel htmlFor="email">Email</FormLabel>
-                      <FormControl className="grid gap-2">
-                        <Input
-                          id="email"
-                          type="email"
-                          placeholder="m@example.com"
-                          {...field}
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <FormField
+              control={form.control}
+              name="title"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel htmlFor="text">Course Title</FormLabel>
+                  <FormControl className="grid gap-2">
+                    <Input
+                      id="title"
+                      type="text"
+                      placeholder="Final Project Backend Development"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="deadline"
+              render={({ field }) => (
+                <FormItem className="flex flex-col">
+                  <FormLabel>Deadline</FormLabel>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Button
+                          variant={"outline"}
+                          className={cn(
+                            "pl-3 text-left font-normal",
+                            !field.value && "text-muted-foreground"
+                          )}
+                        >
+                          {field.value ? (
+                            format(field.value, "PPP HH:mm:ss")
+                          ) : (
+                            <span>Pick a date</span>
+                          )}
+                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <Calendar
+                        mode="single"
+                        selected={field.value}
+                        onSelect={field.onChange}
+                        disabled={(date) => date < new Date()}
+                        initialFocus
+                      />
+                      <div className="p-3 border-t border-border">
+                        <TimePicker
+                          setDate={field.onChange}
+                          date={field.value}
                         />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="password"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel htmlFor="password">Password</FormLabel>
-                      <FormControl className="grid gap-2">
-                        <Input id="password" type="password" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </CardContent>
-              <CardFooter className="flex-col gap-4">
-                {error && (
-                  <FormDescription className="text-red-900">
-                    {error}
-                  </FormDescription>
-                )}
-                <Button className="w-full">Sign in</Button>
-                <CardDescription>
-                  Don&apos;t have a BNCC account?{" "}
-                  <StyledLink
-                    href="/register"
-                    className="text-blue-400 hover:underline"
-                  >
-                    Contact LnT Staff
-                  </StyledLink>
-                </CardDescription>
-              </CardFooter>
-            </Card>
+                      </div>
+                    </PopoverContent>
+                  </Popover>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="course"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel htmlFor="text">Course</FormLabel>
+                  <FormControl className="grid gap-2">
+                    <Input id="course" type="text" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button className="w-full">Sign in</Button>
           </form>
         </Form>
       </DialogContent>

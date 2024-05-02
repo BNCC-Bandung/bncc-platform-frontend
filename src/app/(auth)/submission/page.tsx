@@ -1,4 +1,4 @@
-import { UserData } from "@/api/course-context";
+import { UserData } from "@/api/course-server-context";
 import AdminSubmission from "@/components/Submission/admin-submission";
 import UserSubmission from "@/components/Submission/user-submission";
 

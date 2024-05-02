@@ -11,15 +11,25 @@ import {
 } from "../ui/table";
 import {
   dataAssignmentDummy,
+  dataAssignmentSubmission,
   dataSubmissionAdminDummy,
 } from "./dummy/datadummy";
 import { Button } from "../ui/button";
-import { Badge } from "../ui/badge";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Card } from "../ui/card";
+import { AddAssignment } from "./add-assignment";
 
 export default function AdminSubmission() {
   return (
     <>
-      <Button variant="secondary">Add Assignment</Button>
+      <AddAssignment />
       <Table>
         <TableCaption>Manage submissions here.</TableCaption>
         <TableHeader>
@@ -36,9 +46,41 @@ export default function AdminSubmission() {
               <TableCell>{item.title}</TableCell>
               <TableCell>{item.deadline}</TableCell>
               <TableCell>
-                <Button variant="ghost" size="icon">
-                  <Eye />
-                </Button>
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button variant="secondary">
+                      <Eye className="mr-1" />
+                      Open
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="h-1/2">
+                    <DialogHeader>
+                      <DialogTitle>Assignment Submission</DialogTitle>
+                    </DialogHeader>
+                    <div className="overflow-y-scroll flex flex-col gap-2">
+                      {dataAssignmentSubmission.map((item, index) => {
+                        return (
+                          <Card
+                            className="p-5 flex justify-between"
+                            key={index}
+                          >
+                            <div className="space-y-1">
+                              <p className="text-sm font-medium leading-none">
+                                {item.name}
+                              </p>
+                              <p className="text-sm text-muted-foreground">
+                                {item.dateSubmit}
+                              </p>
+                            </div>
+                            <Button variant="secondary">
+                              Download <Download className="ml-2" size={15} />
+                            </Button>
+                          </Card>
+                        );
+                      })}
+                    </div>
+                  </DialogContent>
+                </Dialog>
               </TableCell>
               <TableCell className="flex gap-2">
                 <Button variant="ghost" size="icon">

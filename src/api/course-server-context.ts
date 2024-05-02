@@ -1,8 +1,7 @@
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import be from "./axios-instace";
 import { UserProfileType } from "@/types/user-data-type";
 import { SessionDataType } from "@/types/session-data-type";
-import { error } from "console";
 
 export let UserData: UserProfileType = {
   fullName: "",
@@ -11,7 +10,7 @@ export let UserData: UserProfileType = {
   address: "",
   phone: "",
   role: 0,
-  enrollments: [],
+  enrollments: [{ courseId: 0, isLecturer: false, userId: "" }],
   bnccId: "",
   isAdmin: false,
 };
@@ -24,12 +23,10 @@ export async function getProfile() {
         Cookie: cookies().toString(),
       },
     });
-
     UserData = response.data.data.user;
   } catch (err) {
-    throw err;
+    // await refreshToken();
   }
-
   return UserData;
 }
 
@@ -43,9 +40,7 @@ export async function getAllSessions() {
       },
     });
     return response.data.data.sessions as SessionDataType[];
-  } catch (err) {
-    console.error(err);
-  }
+  } catch (err) {}
 }
 
 // Function to get upcoming sessions in a course
@@ -54,7 +49,5 @@ export async function getUpcomingSessions(courseId: number) {
     const { courseId } = UserData.enrollments[0];
     const response = await be.get(`/courses/${courseId}/sessions/upcoming`);
     return response.data.data.sessions;
-  } catch (err) {
-    console.error(err);
-  }
+  } catch (err) {}
 }

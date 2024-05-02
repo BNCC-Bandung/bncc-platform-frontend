@@ -50,7 +50,7 @@ export function LoginForm() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      await be.post("http://localhost:5000/v1/auth/login", values);
+      await be.post("/auth/login", values);
       router.push("/");
       router.refresh();
     } catch (err) {
@@ -122,7 +122,7 @@ export function LoginForm() {
                 href="/register"
                 className="text-blue-400 hover:underline"
               >
-                Register
+                Contact LnT Staff
               </StyledLink>
             </CardDescription>
           </CardFooter>

@@ -1,6 +1,8 @@
-import { getProfile } from "@/api/course-context";
+import { getProfile } from "@/api/course-server-context";
 import Footer from "@/components/misc/footer";
 import Header from "@/components/misc/header";
+
+export const revalidate = 60 * 15;
 
 export default async function RootLayout({
   children,

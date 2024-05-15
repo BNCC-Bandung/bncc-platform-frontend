@@ -2,7 +2,7 @@ import type {
   typeSubmissionAdminDummy,
   typeAssignmentSubmissionDummy,
   typeListAssignment,
-} from "../../../types/dummy-data-type";
+} from "@/types/dummy-data-type";
 
 export const dataSubmissionAdminDummy: typeSubmissionAdminDummy[] = [
   {

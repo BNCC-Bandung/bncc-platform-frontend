@@ -12,7 +12,6 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { getAllSubmissions } from "@/api/course-server-context";
 
 interface Assignment {
   title: string;
@@ -20,8 +19,6 @@ interface Assignment {
 }
 
 export default async function UserSubmission() {
-  const assignment: Assignment[] = await getAllSubmissions();
-
   return (
     <Table>
       <TableCaption>A list of your needed submissions.</TableCaption>
@@ -35,7 +32,7 @@ export default async function UserSubmission() {
           <TableHead>Status</TableHead>
         </TableRow>
       </TableHeader>
-      <TableBody>
+      {/* <TableBody>
         {assignment &&
           assignment.map((item, index) => {
             const deadline = new Date(item.deadlineTime);
@@ -74,7 +71,7 @@ export default async function UserSubmission() {
               </TableRow>
             );
           })}
-      </TableBody>
+      </TableBody> */}
     </Table>
   );
 }

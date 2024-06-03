@@ -4,8 +4,10 @@ import { Inter as FontSans } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { ModeToggle } from "@/components/theme/theme-toggle";
-import { NavigationEvents } from "@/components/navigation-event";
+
 import { Suspense } from "react";
+import { ReactQueryProvider } from "@/components/contexts/ReactQueryProvider";
+import { AuthContextProvider } from "@/components/contexts/AuthContextProvider";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -26,17 +28,18 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <Suspense fallback={null}>
-            <NavigationEvents />
-          </Suspense>
-          {children}
-        </ThemeProvider>
+        <ReactQueryProvider>
+          <AuthContextProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="dark"
+              enableSystem
+              disableTransitionOnChange
+            >
+              {children}
+            </ThemeProvider>
+          </AuthContextProvider>
+        </ReactQueryProvider>
       </body>
     </html>
   );

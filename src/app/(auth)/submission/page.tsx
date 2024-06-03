@@ -1,11 +1,10 @@
-import { UserData } from "@/api/course-server-context";
 import AdminSubmission from "./components/admin-submission";
 import UserSubmission from "./components/user-submission";
 
 export default function Submission() {
   return (
     <div className="layout flex flex-col p-10 min-h-screen gap-10">
-      {UserData.isAdmin ? <AdminSubmission /> : <UserSubmission />}
+      {/* {UserData.isAdmin ? <AdminSubmission /> : <UserSubmission />} */}
     </div>
   );
 }

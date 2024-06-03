@@ -1,12 +1,9 @@
-import { getAllSessions } from "@/api/course-server-context";
 import { SessionCard } from "@/components/card/course-card";
 
 export async function Courses() {
-  const sessionData = await getAllSessions();
-
   return (
     <>
-      {sessionData &&
+      {/* {sessionData &&
         sessionData.map((session, index) => {
           return (
             <SessionCard
@@ -16,7 +13,7 @@ export async function Courses() {
               isButtonHidden={false}
             />
           );
-        })}
+        })} */}
     </>
   );
 }

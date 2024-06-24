@@ -8,6 +8,8 @@ import type {
 } from "@/types/attendance-type";
 import { createContext, useState } from "react";
 import axios from "@/api/axios-instance";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { getAttendanceLists } from "@/api/api-backend";
 
 interface AttendanceContextProviderProps {
   children: React.ReactNode;
@@ -61,6 +63,15 @@ const AttendanceContextProvider: React.FC<AttendanceContextProviderProps> = ({
       setError(axiosError.response?.data.message);
     }
   };
+
+  // const { mutate: getAttendanceList } = useMutation({
+  //   mutationKey: ["attend"],
+  //   mutationFn: (sessionId: number) => getAttendanceLists(sessionId),
+  //   onSuccess: (data) => {
+  //     console.log(data);
+  //     setAttendanceData(data);
+  //   },
+  // });
 
   const value = {
     data,

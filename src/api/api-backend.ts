@@ -65,30 +65,22 @@ export async function getUpcomingCourses(courseId: number) {
   }
 }
 
-// // Function to get all sessions in a course
-// export async function getAllSessions() {
-//   try {
-//     const { courseId } = UserData.enrollments[0];
-//     const response = await be.get(`/courses/${courseId}/sessions`);
-//     return response.data.data.sessions as SessionDataType[];
-//   } catch (err) {}
-// }
+export async function getAttendanceList(sessionId: number) {
+  try {
+    const response = await axios.get(`/attendances/sessions/${sessionId}`);
+    return response.data.data.attendances;
+  } catch (error) {
+    const axiosError = error as AxiosError<any>;
+    throw new Error(axiosError.response?.data.message);
+  }
+}
 
-// // Function to get upcoming sessions in a course
-// export async function getUpcomingSessions(courseId: number) {
-//   try {
-//     const { courseId } = UserData.enrollments[0];
-//     const response = await be.get(`/courses/${courseId}/sessions/upcoming`);
-//     return response.data.data.sessions;
-//   } catch (err) {}
-// }
-
-// // Function to get all course submissions
-// export async function getAllSubmissions() {
-//   try {
-//     const { courseId } = UserData.enrollments[0];
-//     const response = await be.get(`/courses/${courseId}/submissions`);
-
-//     return response.data.data.submissions;
-//   } catch (err) {}
-// }
+export async function createAttendance(data: any) {
+  try {
+    const response = await axios.post("/attendances", data);
+    return response.data.data.attendance;
+  } catch (error) {
+    const axiosError = error as AxiosError<any>;
+    throw new Error(axiosError.response?.data.message);
+  }
+}

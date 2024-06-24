@@ -51,11 +51,8 @@ export function AttendaceForm() {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-
     try {
       const response = await be.post("/attendances", values);
-      console.log(response.data);
     } catch (err) {
       const axiosError = err as AxiosError<any>;
       setError(axiosError.response?.data.message);

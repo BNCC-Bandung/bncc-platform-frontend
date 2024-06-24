@@ -32,8 +32,7 @@ const CourseContextProvider: React.FC<CourseContextProviderProps> = ({
     meetingUrl: "string",
   };
 
-  const { userData } = useContext(AuthContext)!;
-  console.log(userData);
+  const { userData, getProfile } = useContext(AuthContext)!;
   const [data, setData] = useState(defaultData);
   const [sessionData, setSessionData] = useState<SessionDataType[]>([]);
   const [error, setError] = useState("");
@@ -43,14 +42,10 @@ const CourseContextProvider: React.FC<CourseContextProviderProps> = ({
     queryFn: () => getAllCourses(userData?.enrollments[0]?.courseId),
   });
 
-  // const {data: courseData, isLoading: isCourseLoading} = useQuery({
-  //   queryKey: ["course", userData.enrollments[0].courseId, ],
-  //   queryFn: getCourse,
-  // });
-
   const getCourse = async (sessionId: number) => {
     try {
       const { courseId } = userData.enrollments[0];
+      if (courseId) getProfile();
       const response = await axios.get(
         `/courses/${courseId}/sessions/${sessionId}`
       );

@@ -75,14 +75,31 @@ export function SessionCard({ session, isAttendance, isButtonHidden }: Props) {
           </div>
         </CardContent>
 
-        <CardFooter className="flex-row">
-          <UnstyledLink href={meetingUrl} nextLinkProps={{ passHref: true }}>
-            <Button variant="secondary" size="sm" className="w-full gap-2">
-              Join Class
-              <LogIn size={15} />
-            </Button>
-          </UnstyledLink>
-        </CardFooter>
+        {!isButtonHidden && (
+          <CardFooter className="flex-row">
+            {!isAttendance ? (
+              <UnstyledLink
+                href={meetingUrl}
+                nextLinkProps={{ passHref: true }}
+              >
+                <Button variant="secondary" size="sm" className="w-full gap-2">
+                  Join Class
+                  <LogIn size={15} />
+                </Button>
+              </UnstyledLink>
+            ) : (
+              <UnstyledLink
+                href={`/attendance/${session.courseId}`}
+                nextLinkProps={{ passHref: true }}
+              >
+                <Button variant="secondary" size="sm" className="w-full gap-2">
+                  See Attendance
+                  <LogIn size={15} />
+                </Button>
+              </UnstyledLink>
+            )}
+          </CardFooter>
+        )}
       </div>
     </Card>
   );

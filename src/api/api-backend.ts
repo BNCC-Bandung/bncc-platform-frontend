@@ -1,4 +1,4 @@
-import axios from "./axios-instace";
+import axios from "./axios-instance";
 import { UserProfileType } from "@/types/user-data-type";
 import { SessionDataType } from "@/types/session-data-type";
 import { AxiosError } from "axios";
@@ -19,7 +19,7 @@ export async function refreshToken() {
     await getUserProfile();
   } catch (err) {
     const axiosError = err as AxiosError<any>;
-    return axiosError.response?.data.message;
+    throw new Error(axiosError.response?.data.message);
   }
 }
 
@@ -29,7 +29,39 @@ export async function deleteSession() {
     return response.data.data;
   } catch (err) {
     const axiosError = err as AxiosError<any>;
-    return axiosError.response?.data.message;
+    throw new Error(axiosError.response?.data.message);
+  }
+}
+
+export async function getAllCourses(courseId: number) {
+  try {
+    const response = await axios.get(`/courses/${courseId}/sessions`);
+    return response.data.data.sessions as SessionDataType[];
+  } catch (error) {
+    const axiosError = error as AxiosError<any>;
+    throw new Error(axiosError.response?.data.message);
+  }
+}
+
+export async function getCourse(courseId: number, sessionId: number) {
+  try {
+    const response = await axios.get(
+      `/courses/${courseId}/sessions/${sessionId}`
+    );
+    return response.data.data.session as SessionDataType;
+  } catch (error) {
+    const axiosError = error as AxiosError<any>;
+    throw new Error(axiosError.response?.data.message);
+  }
+}
+
+export async function getUpcomingCourses(courseId: number) {
+  try {
+    const response = await axios.get(`/courses/${courseId}/sessions/upcoming`);
+    return response.data.data.sessions as SessionDataType[];
+  } catch (error) {
+    const axiosError = error as AxiosError<any>;
+    throw new Error(axiosError.response?.data.message);
   }
 }
 

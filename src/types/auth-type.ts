@@ -6,6 +6,7 @@ interface AuthType<T> {
   getProfile: () => void;
   logout: () => void;
   isUserLoading: boolean;
+  isLogoutLoading: boolean;
 }
 
 export type { AuthType };

@@ -7,8 +7,8 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "../ui/card";
-import { Button } from "../ui/button";
+} from "../../../../components/ui/card";
+import { Button } from "../../../../components/ui/button";
 import {
   BookMarked,
   Calendar,
@@ -21,7 +21,7 @@ import { SessionDataType } from "@/types/session-data-type";
 
 import { DateTime } from "luxon";
 import Link from "next/link";
-import UnstyledLink from "../link/unstyled-link";
+import UnstyledLink from "../../../../components/link/unstyled-link";
 
 interface Props {
   session: SessionDataType;

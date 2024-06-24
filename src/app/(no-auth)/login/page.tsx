@@ -33,7 +33,7 @@ import type { AxiosError } from "axios";
 
 import { useRouter } from "next/navigation";
 
-import be from "@/api/axios-instace";
+import be from "@/api/axios-instance";
 import { LoaderCircle } from "lucide-react";
 import { useContext } from "react";
 import { AuthContext } from "@/components/contexts/AuthContextProvider";

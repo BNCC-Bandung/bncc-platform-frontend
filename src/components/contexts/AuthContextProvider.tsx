@@ -3,9 +3,10 @@ import type { AxiosError } from "axios";
 import type { AuthType } from "@/types/auth-type";
 import type { UserProfileType } from "@/types/user-data-type";
 import { createContext, useEffect, useState } from "react";
-import axios from "@/api/axios-instace";
+import axios from "@/api/axios-instance";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { deleteSession, getUserProfile } from "@/api/api-backend";
+import { useRouter } from "next/navigation";
 
 interface AuthContextProviderProps {
   children: React.ReactNode;
@@ -28,6 +29,7 @@ const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
     isAdmin: false,
   };
 
+  const router = useRouter();
   const [userData, setUserData] = useState(defaultUserData);
   const [error, setError] = useState("");
 
@@ -38,7 +40,6 @@ const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
   } = useQuery({
     queryKey: ["profile"],
     queryFn: getUserProfile,
-    refetchInterval: 60 * 15 * 1000,
   });
 
   useEffect(() => {
@@ -47,9 +48,13 @@ const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
     }
   }, [data]);
 
-  const { mutate } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationKey: ["logout"],
     mutationFn: deleteSession,
+    onSuccess: () => {
+      router.push("/login");
+      router.refresh();
+    },
   });
 
   const value = {
@@ -59,6 +64,7 @@ const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
     setError,
     getProfile,
     logout: mutate,
+    isLogoutLoading: isPending,
     isUserLoading: isLoading,
   };
 

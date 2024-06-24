@@ -18,7 +18,7 @@ interface Assignment {
   deadlineTime: string;
 }
 
-export default async function UserSubmission() {
+export default function UserSubmission() {
   return (
     <Table>
       <TableCaption>A list of your needed submissions.</TableCaption>

@@ -34,7 +34,7 @@ import {
 } from "@/components/ui/form";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import be from "@/api/axios-instace";
+import be from "@/api/axios-instance";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { AxiosError } from "axios";
@@ -46,6 +46,14 @@ import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
 import { TimePicker } from "@/components/ui-interact/time-picker";
+import { toast } from "@/components/ui/use-toast";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const formSchema = z.object({
   title: z.string(),
@@ -63,7 +71,16 @@ export function AddAssignment() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      console.log(values);
+      toast({
+        title: "You submitted the following values:",
+        description: (
+          <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+            <code className="text-white">
+              {JSON.stringify(values, null, 2)}
+            </code>
+          </pre>
+        ),
+      });
     } catch (err) {
       const axiosError = err as AxiosError<any>;
       setError(axiosError.response?.data.message);
@@ -152,14 +169,30 @@ export function AddAssignment() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel htmlFor="text">Course</FormLabel>
-                  <FormControl className="grid gap-2">
-                    <Input id="course" type="text" {...field} />
-                  </FormControl>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl className="grid gap-2">
+                      <SelectTrigger className="w-full flex">
+                        <SelectValue placeholder="Theme" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent className="w-full">
+                      <SelectItem value="ui/ux">UI/UX</SelectItem>
+                      <SelectItem value="front-end">
+                        Front-end Development
+                      </SelectItem>
+                      <SelectItem value="back-end">
+                        Back-end Development
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <Button className="w-full">Sign in</Button>
+            <Button className="w-full">Add Assingment</Button>
           </form>
         </Form>
       </DialogContent>

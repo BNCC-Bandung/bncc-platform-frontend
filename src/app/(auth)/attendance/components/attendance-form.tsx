@@ -33,7 +33,7 @@ import type { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 
 import { useState } from "react";
-import be from "@/api/axios-instace";
+import be from "@/api/axios-instance";
 
 const formSchema = z.object({
   NIM: z.string().refine((value) => /^\d{10}$/.test(value), {

@@ -6,9 +6,7 @@ import { ThemeProvider } from "@/components/theme/theme-provider";
 
 import NextTopLoader from "nextjs-toploader";
 import { ReactQueryProvider } from "@/components/contexts/ReactQueryProvider";
-// import { AuthContextProvider } from "@/components/contexts/AuthContextProvider";
-// import { CourseContextProvider } from "@/components/contexts/CourseContext";
-import { Toaster } from "@/components/ui/toaster";
+import { Toaster } from "@/components/ui/sonner";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -30,9 +28,6 @@ export default function RootLayout({
         )}
       >
         <ReactQueryProvider>
-          {/* <AuthContextProvider>
-            <CourseContextProvider>
-              <AttendanceContextProvider> */}
           <ThemeProvider
             attribute="class"
             defaultTheme="dark"
@@ -43,9 +38,6 @@ export default function RootLayout({
             {children}
             <Toaster />
           </ThemeProvider>
-          {/* </AttendanceContextProvider>
-            </CourseContextProvider>
-          </AuthContextProvider> */}
         </ReactQueryProvider>
       </body>
     </html>

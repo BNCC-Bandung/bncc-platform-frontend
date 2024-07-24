@@ -9,11 +9,31 @@ import {
   CardTitle,
 } from "../../../../components/ui/card";
 import { Button } from "../../../../components/ui/button";
-import { BookMarked, Calendar, LogIn, Presentation, Timer } from "lucide-react";
+import {
+  BookMarked,
+  Calendar,
+  LogIn,
+  Presentation,
+  Timer,
+  TrashIcon,
+} from "lucide-react";
 import { SessionDataType } from "@/types/session-data-type";
 
 import { DateTime } from "luxon";
 import UnstyledLink from "../../../../components/link/unstyled-link";
+import { useDeleteSession } from "@/api/api-backend";
+
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 interface Props {
   session: SessionDataType;
@@ -22,6 +42,11 @@ interface Props {
 }
 
 export function SessionCard({ session, isAttendance, isButtonHidden }: Props) {
+  const { mutateAsync: deleteSession } = useDeleteSession(
+    session.courseId,
+    session.id
+  );
+
   const { id, title, sessionNumber, courseId, meetingUrl } = session;
 
   const date = DateTime.fromISO(session.startTime).toFormat("DD");
@@ -29,9 +54,9 @@ export function SessionCard({ session, isAttendance, isButtonHidden }: Props) {
   const endTime = DateTime.fromISO(session.endTime).toFormat("T");
 
   const getCourseName = () => {
-    if (courseId === 1) {
+    if (courseId === "1") {
       return "Backend Programming";
-    } else if (courseId === 2) {
+    } else if (courseId === "2") {
       return "Java Programming";
     } else {
       return "Frontend Programming";
@@ -70,15 +95,49 @@ export function SessionCard({ session, isAttendance, isButtonHidden }: Props) {
         {!isButtonHidden && (
           <CardFooter className="flex-row">
             {!isAttendance ? (
-              <UnstyledLink
-                href={meetingUrl}
-                nextLinkProps={{ passHref: true }}
-              >
-                <Button variant="secondary" size="sm" className="w-full gap-2">
-                  Join Class
-                  <LogIn size={15} />
-                </Button>
-              </UnstyledLink>
+              <div className="w-full flex justify-between">
+                <UnstyledLink
+                  href={meetingUrl}
+                  nextLinkProps={{ passHref: true }}
+                >
+                  <Button variant="secondary" size="sm" className="w-fit gap-2">
+                    Join Class
+                    <LogIn size={15} />
+                  </Button>
+                </UnstyledLink>
+
+                <AlertDialog>
+                  <AlertDialogTrigger>
+                    <Button
+                      variant="destructive"
+                      size="sm"
+                      className="w-fit gap-2"
+                    >
+                      <TrashIcon size={15} />
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>
+                        Are you absolutely sure?
+                      </AlertDialogTitle>
+                      <AlertDialogDescription>
+                        This action cannot be undone. This will permanently
+                        delete the session.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogAction
+                        className="bg-destructive text-foreground"
+                        onClick={() => deleteSession()}
+                      >
+                        Continue
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+              </div>
             ) : (
               <UnstyledLink
                 href={`/attendance/${session.courseId}`}

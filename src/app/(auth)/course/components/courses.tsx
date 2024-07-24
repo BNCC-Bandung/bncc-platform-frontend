@@ -1,7 +1,7 @@
 "use client";
 
 import { useGetAllSessions } from "@/api/api-backend";
-import { SessionCard } from "./session-card";
+import { SessionCard } from "./card-session";
 import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 

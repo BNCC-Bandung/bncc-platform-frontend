@@ -2,7 +2,7 @@
 import { useContext } from "react";
 import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { SessionCard } from "../../course/components/session-card";
+import { SessionCard } from "../../course/components/card-session";
 
 export default function Attendance() {
   if (isCoursesLoading) {

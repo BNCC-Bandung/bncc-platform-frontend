@@ -3,7 +3,7 @@
 import { useUpcomingSessions, useUserProfile } from "@/api/api-backend";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { EnrollmentsCourseType } from "@/types/user-data-type";
-import { SessionCard } from "../course/components/session-card";
+import { SessionCard } from "../course/components/card-session";
 
 export function UpcomingCourses() {
   const { data } = useUserProfile();

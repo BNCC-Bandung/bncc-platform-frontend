@@ -1,7 +1,7 @@
 "use client";
 import { useContext, useEffect } from "react";
 import { AttendanceContext } from "@/components/contexts/AttendanceContext";
-import { SessionCard } from "../../../course/components/session-card";
+import { SessionCard } from "../../../course/components/card-session";
 import { CourseContext } from "@/components/contexts/CourseContext";
 import { Card, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";

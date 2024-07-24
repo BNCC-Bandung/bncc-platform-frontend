@@ -1,7 +1,7 @@
 "use client";
 import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { CourseCard } from "./course-card";
+import { CourseCard } from "./card-course";
 import { useGetAllCourses, useUserProfile } from "@/api/api-backend";
 
 export function AvailableCourses() {

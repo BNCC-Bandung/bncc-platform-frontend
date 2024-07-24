@@ -1,6 +1,6 @@
 interface SessionDataType {
-    id: number;
-    courseId: number;
+    id: string;
+    courseId: string;
     title: string;
     sessionNumber: number;
     startTime: string;

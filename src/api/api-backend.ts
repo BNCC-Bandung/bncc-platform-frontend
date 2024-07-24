@@ -1,3 +1,4 @@
+import { toast } from "sonner"
 import axios from "./axios-instance";
 import { UserProfileType } from "@/types/user-data-type";
 import { SessionDataType } from "@/types/session-data-type";
@@ -164,6 +165,16 @@ export function useAddSession(courseId: string, setFormOpen: (isOpen: boolean) =
     },
     onSuccess: () => {
       queryClient.invalidateQueries()
+      toast.success("Session created successfully ✅", {
+        description: new Date().toLocaleString("id-ID", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+          hour: "numeric",
+          minute: "numeric",
+          second: "numeric",
+        }),
+      });
       setFormOpen(false);
     },
     onError: (error: AxiosError) => {
@@ -172,44 +183,18 @@ export function useAddSession(courseId: string, setFormOpen: (isOpen: boolean) =
   });
 }
 
-export async function getCourse(courseId: number, sessionId: number) {
-  try {
-    const response = await axios.get(
-      `/courses/${courseId}/sessions/${sessionId}`
-    );
-    return response.data.data.session as SessionDataType;
-  } catch (error) {
-    const axiosError = error as AxiosError<any>;
-    throw new Error(axiosError.response?.data.message);
-  }
-}
-
-export async function getUpcomingCourses(courseId: number) {
-  try {
-    const response = await axios.get(`/courses/${courseId}/sessions/upcoming`);
-    return response.data.data.sessions as SessionDataType[];
-  } catch (error) {
-    const axiosError = error as AxiosError<any>;
-    throw new Error(axiosError.response?.data.message);
-  }
-}
-
-export async function getAttendanceList(sessionId: number) {
-  try {
-    const response = await axios.get(`/attendances/sessions/${sessionId}`);
-    return response.data.data.attendances;
-  } catch (error) {
-    const axiosError = error as AxiosError<any>;
-    throw new Error(axiosError.response?.data.message);
-  }
-}
-
-export async function createAttendance(data: any) {
-  try {
-    const response = await axios.post("/attendances", data);
-    return response.data.data.attendance;
-  } catch (error) {
-    const axiosError = error as AxiosError<any>;
-    throw new Error(axiosError.response?.data.message);
-  }
+export function useDeleteSession(courseId: string, sessionId: string) {
+  return useMutation({
+    mutationKey: ["delete-session"],
+    mutationFn: async () => {
+      await axios.delete(`/courses/${courseId}/sessions/${sessionId}`);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries();
+      toast.success("Session deleted successfully 🗑️");
+    },
+    onError: (error: AxiosError) => {
+      return error;
+    },
+  });
 }

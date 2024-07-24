@@ -27,7 +27,7 @@ export function AddSession({ courseId }: { courseId: string }) {
         <DialogHeader>
           <DialogTitle>Add new session</DialogTitle>
           <DialogDescription>
-            Tambahkan session baru untuk course ini.
+            Add a new session for this course.
           </DialogDescription>
         </DialogHeader>
         <FormAddSession courseId={courseId} setIsOpen={setIsOpen} />

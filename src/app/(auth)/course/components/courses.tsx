@@ -5,7 +5,13 @@ import { SessionCard } from "./card-session";
 import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 
-export function Courses({ courseId }: { courseId: string }) {
+export function Courses({
+  courseId,
+  isLecturer,
+}: {
+  courseId: string;
+  isLecturer: boolean;
+}) {
   const { data: sessionsData, isLoading: isSessionsLoading } =
     useGetAllSessions(courseId, { enabled: !!courseId });
 
@@ -29,6 +35,7 @@ export function Courses({ courseId }: { courseId: string }) {
               session={session}
               isAttendance={false}
               isButtonHidden={false}
+              isLecturer={isLecturer}
             />
           );
         })}

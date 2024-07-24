@@ -38,7 +38,10 @@ export default function CoursePage() {
             <AccordionContent>
               {course.isLecturer && <AddSession courseId={course.courseId} />}
               <div className="grid grid-cols-2 gap-4">
-                <Courses courseId={course.courseId} />
+                <Courses
+                  courseId={course.courseId}
+                  isLecturer={course.isLecturer}
+                />
               </div>
             </AccordionContent>
           </AccordionItem>

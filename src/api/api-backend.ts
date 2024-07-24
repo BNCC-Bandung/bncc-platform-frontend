@@ -183,6 +183,32 @@ export function useAddSession(courseId: string, setFormOpen: (isOpen: boolean) =
   });
 }
 
+export function useEditSession(courseId: string, sessionId: string, setFormOpen: (isOpen: boolean) => void) {
+  return useMutation({
+    mutationKey: ["edit-session"],
+    mutationFn: async (values: SessionSchema) => {
+      await axios.put(`/courses/${courseId}/sessions/${sessionId}`, values);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries()
+      toast.success("Session updated successfully ✅", {
+        description: new Date().toLocaleString("id-ID", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+          hour: "numeric",
+          minute: "numeric",
+          second: "numeric",
+        }),
+      });
+      setFormOpen(false);
+    },
+    onError: (error: AxiosError) => {
+      return error;
+    },
+  });
+}
+
 export function useDeleteSession(courseId: string, sessionId: string) {
   return useMutation({
     mutationKey: ["delete-session"],

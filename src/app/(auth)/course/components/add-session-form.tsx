@@ -15,19 +15,52 @@ import {
 } from "@/components/ui/form";
 import { LoaderCircle } from "lucide-react";
 import { sessionSchema, SessionSchema } from "@/validations/session-schema";
-import { useAddSession } from "@/api/api-backend";
+import { useAddSession, useEditSession } from "@/api/api-backend";
+import { SessionDataType } from "@/types/session-data-type";
+import { format, parseISO } from "date-fns";
 
 export function FormAddSession({
   courseId,
+  session,
   setIsOpen,
+  isEditing = false,
 }: {
   courseId: string;
+  session?: SessionDataType;
   setIsOpen: (isOpen: boolean) => void;
+  isEditing?: boolean;
 }) {
-  const { mutateAsync, error, isPending } = useAddSession(courseId, setIsOpen);
+  // Determine which hook to use based on isEditing flag
+  const {
+    mutateAsync: mutateAddSession,
+    error: addError,
+    isPending: isPendingAdd,
+  } = useAddSession(courseId, setIsOpen);
+
+  const {
+    mutateAsync: mutateEditSession,
+    error: editError,
+    isPending: isPendingEdit,
+  } = useEditSession(courseId, session?.id || "0", setIsOpen);
+
+  // Select appropriate mutation function and states
+  const mutateAsync = isEditing ? mutateEditSession : mutateAddSession;
+  const error = isEditing ? editError : addError;
+  const isPending = isEditing ? isPendingEdit : isPendingAdd;
 
   const form = useForm<SessionSchema>({
     resolver: zodResolver(sessionSchema),
+    defaultValues: {
+      title: session?.title,
+      sessionNumber: session?.sessionNumber,
+      startTime: session
+        ? format(parseISO(session.startTime), "dd-MM-yyyy HH:mm:ss")
+        : "",
+      endTime: session
+        ? format(parseISO(session.endTime), "dd-MM-yyyy HH:mm:ss")
+        : "",
+      meetingUrl: session?.meetingUrl,
+    },
   });
 
   async function onSubmit(values: SessionSchema) {
@@ -139,8 +172,10 @@ export function FormAddSession({
               <span>Loading</span>
               <LoaderCircle className="animate-spin" />
             </>
+          ) : isEditing ? (
+            "Edit Session"
           ) : (
-            <span>Add Session</span>
+            "Add Session"
           )}
         </Button>
       </form>

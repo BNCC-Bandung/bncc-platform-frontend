@@ -34,14 +34,19 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { EditSession } from "./edit-session";
 
-interface Props {
+export function SessionCard({
+  session,
+  isAttendance,
+  isButtonHidden,
+  isLecturer,
+}: {
   session: SessionDataType;
   isAttendance: boolean;
   isButtonHidden: boolean;
-}
-
-export function SessionCard({ session, isAttendance, isButtonHidden }: Props) {
+  isLecturer: boolean;
+}) {
   const { mutateAsync: deleteSession } = useDeleteSession(
     session.courseId,
     session.id
@@ -95,7 +100,8 @@ export function SessionCard({ session, isAttendance, isButtonHidden }: Props) {
         {!isButtonHidden && (
           <CardFooter className="flex-row">
             {!isAttendance ? (
-              <div className="w-full flex justify-between">
+              <div className="w-full flex justify-end items-center gap-2">
+                {/* Join Button */}
                 <UnstyledLink
                   href={meetingUrl}
                   nextLinkProps={{ passHref: true }}
@@ -106,37 +112,45 @@ export function SessionCard({ session, isAttendance, isButtonHidden }: Props) {
                   </Button>
                 </UnstyledLink>
 
-                <AlertDialog>
-                  <AlertDialogTrigger>
-                    <Button
-                      variant="destructive"
-                      size="sm"
-                      className="w-fit gap-2"
-                    >
-                      <TrashIcon size={15} />
-                    </Button>
-                  </AlertDialogTrigger>
-                  <AlertDialogContent>
-                    <AlertDialogHeader>
-                      <AlertDialogTitle>
-                        Are you absolutely sure?
-                      </AlertDialogTitle>
-                      <AlertDialogDescription>
-                        This action cannot be undone. This will permanently
-                        delete the session.
-                      </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                      <AlertDialogCancel>Cancel</AlertDialogCancel>
-                      <AlertDialogAction
-                        className="bg-destructive text-foreground"
-                        onClick={() => deleteSession()}
-                      >
-                        Continue
-                      </AlertDialogAction>
-                    </AlertDialogFooter>
-                  </AlertDialogContent>
-                </AlertDialog>
+                {isLecturer && (
+                  <>
+                    {/* Edit Button */}
+                    <EditSession session={session} />
+
+                    {/* Delete Button */}
+                    <AlertDialog>
+                      <AlertDialogTrigger>
+                        <Button
+                          variant="destructive"
+                          size="sm"
+                          className="w-fit gap-2"
+                        >
+                          <TrashIcon size={15} />
+                        </Button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>
+                            Are you absolutely sure?
+                          </AlertDialogTitle>
+                          <AlertDialogDescription>
+                            This action cannot be undone. This will permanently
+                            delete the session.
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>Cancel</AlertDialogCancel>
+                          <AlertDialogAction
+                            className="bg-destructive text-foreground"
+                            onClick={() => deleteSession()}
+                          >
+                            Continue
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
+                  </>
+                )}
               </div>
             ) : (
               <UnstyledLink

@@ -2,11 +2,12 @@ import axios from "./axios-instance";
 import { UserProfileType } from "@/types/user-data-type";
 import { SessionDataType } from "@/types/session-data-type";
 import { AxiosError } from "axios";
-import { useMutation, useQuery, useQueryClient, UseQueryOptions } from "@tanstack/react-query";
+import { useMutation, useQuery, UseQueryOptions } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { LoginSchema } from "@/validations/login-schema";
 import { CourseDataType } from "@/types/course-data-type";
 import { queryClient } from "@/components/contexts/ReactQueryProvider";
+import { SessionSchema } from "@/validations/session-schema";
 
 async function getUserProfile() {
   try {
@@ -137,6 +138,37 @@ export function useUnenrollCourse() {
     onSuccess: () => {
       queryClient.invalidateQueries()
     }
+  });
+}
+
+export function useUpcomingSessions(courseId: string) {
+  return useQuery({
+    queryKey: ["upcoming", courseId],
+    queryFn: async () => {
+      try {
+        const response = await axios.get(`/courses/${courseId}/sessions/upcoming`);
+        return response.data.data.sessions as SessionDataType[];
+      } catch (error) {
+        const axiosError = error as AxiosError<any>;
+        throw new Error(axiosError.response?.data.message);
+      }
+    },
+  });
+}
+
+export function useAddSession(courseId: string, setFormOpen: (isOpen: boolean) => void) {
+  return useMutation({
+    mutationKey: ["add-session"],
+    mutationFn: async (values: SessionSchema) => {
+      await axios.post(`/courses/${courseId}/sessions`, values);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries()
+      setFormOpen(false);
+    },
+    onError: (error: AxiosError) => {
+      return error;
+    },
   });
 }
 

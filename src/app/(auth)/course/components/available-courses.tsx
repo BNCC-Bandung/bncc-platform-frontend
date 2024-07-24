@@ -33,6 +33,11 @@ export function AvailableCourses() {
                 (enrollment) =>
                   enrollment.courseId === course.id && enrollment.approved
               )}
+              isLecturer={
+                userData?.enrollments?.find(
+                  (enrollment) => enrollment.courseId === course.id
+                )?.isLecturer
+              }
               //   session={session}
               //   isAttendance={false}
               //   isButtonHidden={false}

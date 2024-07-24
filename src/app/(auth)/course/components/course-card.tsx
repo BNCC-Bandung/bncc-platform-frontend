@@ -15,10 +15,12 @@ export function CourseCard({
   course,
   enrolled,
   approved,
+  isLecturer,
 }: {
   course: CourseDataType;
   enrolled: boolean | undefined;
   approved: boolean | undefined;
+  isLecturer: boolean | undefined;
 }) {
   const { mutate: enroll } = useEnrollCourse();
   const { mutate: unenroll } = useUnenrollCourse();
@@ -50,9 +52,14 @@ export function CourseCard({
             Apply Course
           </Button>
         )}
-        {enrolled && (
+        {enrolled && !approved && (
           <Button onClick={() => unenroll(course.id)} variant="destructive">
             Cancel enrollment
+          </Button>
+        )}
+        {enrolled && approved && (
+          <Button disabled>
+            Enrolled as {isLecturer ? "Lecturer" : "Student"}
           </Button>
         )}
       </CardFooter>

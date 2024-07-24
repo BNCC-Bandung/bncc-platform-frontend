@@ -1,3 +1,5 @@
+import { CourseDataType } from "./course-data-type";
+
 interface UserDataType {
     fullName: string;
     NIM: string;
@@ -22,6 +24,7 @@ interface EnrollmentsCourseType {
     isLecturer: boolean;
     userId: string;
     approved: boolean;
+    course: CourseDataType;
 }
 
 interface UserProfileType extends UserDataType {
@@ -30,4 +33,4 @@ interface UserProfileType extends UserDataType {
     isAdmin: boolean;
 }
 
-export type { UserLoginType, UserRegisterType, UserProfileType };
+export type { UserLoginType, UserRegisterType, UserProfileType, EnrollmentsCourseType };

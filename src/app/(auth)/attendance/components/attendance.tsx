@@ -1,13 +1,10 @@
 "use client";
 import { useContext } from "react";
-import { CourseContext } from "@/components/contexts/CourseContext";
 import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { SessionCard } from "../../course/components/course-card";
+import { SessionCard } from "../../course/components/session-card";
 
 export default function Attendance() {
-  const { coursesData, isCoursesLoading } = useContext(CourseContext)!;
-
   if (isCoursesLoading) {
     return (
       <Card className="w-full h-fit flex">

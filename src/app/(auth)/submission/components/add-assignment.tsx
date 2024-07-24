@@ -1,22 +1,15 @@
 "use client";
 import {
   Dialog,
-  DialogTrigger,
   DialogContent,
   DialogTitle,
+  DialogTrigger,
 } from "@/components/ui/dialog";
-import { Eye, Download, Plus, CalendarIcon } from "lucide-react";
+import { CalendarIcon, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardFooter,
-} from "@/components/ui/card";
+
+
 import { DialogHeader } from "@/components/ui/dialog";
-import { dataAssignmentSubmission } from "./dummy/datadummy";
 import {
   Popover,
   PopoverContent,
@@ -26,22 +19,17 @@ import {
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import be from "@/api/axios-instance";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { AxiosError } from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Image from "next/image";
 import { Input } from "@/components/ui/input";
-import StyledLink from "@/components/link/styled-link";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";

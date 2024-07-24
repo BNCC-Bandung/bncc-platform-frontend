@@ -1,9 +1,9 @@
 "use client";
 import { useContext, useEffect } from "react";
 import { AttendanceContext } from "@/components/contexts/AttendanceContext";
-import { SessionCard } from "../../../course/components/course-card";
+import { SessionCard } from "../../../course/components/session-card";
 import { CourseContext } from "@/components/contexts/CourseContext";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Card, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { FileDown } from "lucide-react";
 import { AttendanceList } from "./attendance-list";

@@ -1,4 +1,4 @@
-import { Card, CardHeader, CardContent, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export async function UpcomingCourses() {
   return (

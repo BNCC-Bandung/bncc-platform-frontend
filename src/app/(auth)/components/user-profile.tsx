@@ -1,35 +1,12 @@
 "use client";
-import {
-  ContactRound,
-  BookUser,
-  MapPin,
-  Mail,
-  Phone,
-  LoaderCircle,
-} from "lucide-react";
-import { Card, CardHeader, CardContent } from "@/components/ui/card";
+import { BookUser, ContactRound, Mail, MapPin, Phone } from "lucide-react";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
-import { useQuery } from "@tanstack/react-query";
-import { Suspense, useContext, useEffect } from "react";
-import { Skeleton } from "@/components/ui/skeleton";
-import { AuthContext } from "@/components/contexts/AuthContextProvider";
+import { useUserProfile } from "@/api/api-backend";
 
 export function UserProfile() {
-  const { userData, isUserLoading, getProfile } = useContext(AuthContext)!;
-
-  useEffect(() => {
-    getProfile();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  if (isUserLoading) {
-    return (
-      <div className="flex gap-10 p-5 border w-full">
-        <Skeleton className="w-[300px] h-[300px]" />
-      </div>
-    );
-  }
+  const { data: userData } = useUserProfile();
 
   return (
     <Card className="flex gap-10 p-5">

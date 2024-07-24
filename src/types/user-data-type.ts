@@ -18,9 +18,10 @@ interface UserRegisterType extends UserDataType {
 }
 
 interface EnrollmentsCourseType {
-    courseId: number;
+    courseId: string;
     isLecturer: boolean;
     userId: string;
+    approved: boolean;
 }
 
 interface UserProfileType extends UserDataType {

@@ -1,16 +1,15 @@
 import { Table } from "@/components/ui/table";
-import { Download, Eye, Pencil, Trash, Upload } from "lucide-react";
+import { Download, Eye, Pencil, Trash } from "lucide-react";
 
 import {
+  TableBody,
   TableCaption,
+  TableCell,
+  TableHead,
   TableHeader,
   TableRow,
-  TableHead,
-  TableBody,
-  TableCell,
 } from "@/components/ui/table";
 import {
-  dataAssignmentDummy,
   dataAssignmentSubmission,
   dataSubmissionAdminDummy,
 } from "./dummy/datadummy";
@@ -18,7 +17,6 @@ import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,

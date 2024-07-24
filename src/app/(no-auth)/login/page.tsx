@@ -10,14 +10,10 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-
 import Image from "next/image";
 import StyledLink from "@/components/link/styled-link";
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
-
 import {
   Form,
   FormControl,
@@ -27,46 +23,18 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-
-import { useMutation } from "@tanstack/react-query";
-import type { AxiosError } from "axios";
-
-import { useRouter } from "next/navigation";
-
-import be from "@/api/axios-instance";
 import { LoaderCircle } from "lucide-react";
-import { useContext } from "react";
-import { AuthContext } from "@/components/contexts/AuthContextProvider";
-
-const formSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(8),
-});
+import { loginSchema, LoginSchema } from "@/validations/login-schema";
+import { useLogin } from "@/api/api-backend";
 
 export default function LoginForm() {
-  const { getProfile } = useContext(AuthContext)!;
-  const router = useRouter();
+  const { mutate, error, isPending } = useLogin();
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<LoginSchema>({
+    resolver: zodResolver(loginSchema),
   });
 
-  const { mutate, error, isPending } = useMutation({
-    mutationKey: ["login"],
-    mutationFn: async (values: z.infer<typeof formSchema>) => {
-      await be.post("/auth/login", values);
-    },
-    onSuccess: () => {
-      getProfile();
-      router.push("/");
-      router.refresh();
-    },
-    onError: (error: AxiosError) => {
-      return error;
-    },
-  });
-
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: LoginSchema) {
     mutate(values);
   }
 

@@ -1,22 +1,11 @@
 import { Table } from "@/components/ui/table";
-import { Download, Upload } from "lucide-react";
 
 import {
   TableCaption,
+  TableHead,
   TableHeader,
   TableRow,
-  TableHead,
-  TableBody,
-  TableCell,
 } from "@/components/ui/table";
-
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-
-interface Assignment {
-  title: string;
-  deadlineTime: string;
-}
 
 export default function UserSubmission() {
   return (

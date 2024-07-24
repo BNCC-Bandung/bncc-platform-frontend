@@ -1,19 +1,18 @@
 "use client";
-import { useContext } from "react";
-import { SessionCard } from "./course-card";
-import { CourseContext } from "@/components/contexts/CourseContext";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+
+import { useGetAllSessions, useUserProfile } from "@/api/api-backend";
+import { SessionCard } from "./session-card";
+import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export function Courses() {
-  const { coursesData, isCoursesLoading } = useContext(CourseContext)!;
+  const { data } = useUserProfile();
+  const courseId = data?.enrollments?.[0]?.courseId || "0";
+
+  const { data: coursesData, isLoading: isCoursesLoading } = useGetAllSessions(
+    courseId,
+    { enabled: !!courseId }
+  );
 
   if (isCoursesLoading) {
     return (

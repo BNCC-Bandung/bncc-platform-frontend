@@ -6,15 +6,11 @@ import { SelectPeriod } from "../ui-interact/select-period";
 import Navigation from "./navigation";
 import { Button } from "../ui/button";
 
-import { LoaderCircle, LogOut } from "lucide-react";
-import be from "@/api/axios-instance";
-import { useRouter } from "next/navigation";
-import { useMutation } from "@tanstack/react-query";
-import { useContext } from "react";
-import { AuthContext } from "../contexts/AuthContextProvider";
+import { LogOut } from "lucide-react";
+import { useLogout } from "@/api/api-backend";
 
 export default function Header() {
-  const { logout, isLogoutLoading } = useContext(AuthContext)!;
+  const { mutate, isPending } = useLogout();
 
   return (
     <header className="border-b h-14">
@@ -35,8 +31,8 @@ export default function Header() {
           <Button
             variant="destructive"
             className="w-28"
-            onClick={logout}
-            disabled={isLogoutLoading}
+            onClick={() => mutate()}
+            disabled={isPending}
           >
             Log Out
             <LogOut size={15} className="ml-1" />

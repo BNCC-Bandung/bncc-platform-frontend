@@ -11,6 +11,8 @@ import { queryClient } from "@/components/contexts/ReactQueryProvider";
 import { SessionSchema } from "@/validations/session-schema";
 import { CurrentSubmissionDataType, SubmissionDataType } from "@/types/submission-data-type";
 import { SubmissionSchema } from "@/validations/submission-schema";
+import { format } from "date-fns";
+import { AssignmentSchema } from "@/validations/assignment-schema";
 
 async function getUserProfile() {
   try {
@@ -178,7 +180,11 @@ export function useAddSession(courseId: string, setFormOpen: (isOpen: boolean) =
   return useMutation({
     mutationKey: ["add-session"],
     mutationFn: async (values: SessionSchema) => {
-      await axios.post(`/courses/${courseId}/sessions`, values);
+      await axios.post(`/courses/${courseId}/sessions`, {
+        ...values,
+        startTime: format(values.startTime, "dd-MM-yyyy HH:mm:ss"),
+        endTime: format(values.endTime, "dd-MM-yyyy HH:mm:ss"),
+      });
     },
     onSuccess: () => {
       queryClient.invalidateQueries()
@@ -204,7 +210,11 @@ export function useEditSession(courseId: string, sessionId: string, setFormOpen:
   return useMutation({
     mutationKey: ["edit-session"],
     mutationFn: async (values: SessionSchema) => {
-      await axios.put(`/courses/${courseId}/sessions/${sessionId}`, values);
+      await axios.put(`/courses/${courseId}/sessions/${sessionId}`, {
+        ...values,
+        startTime: format(values.startTime, "dd-MM-yyyy HH:mm:ss"),
+        endTime: format(values.endTime, "dd-MM-yyyy HH:mm:ss"),
+      });
     },
     onSuccess: () => {
       queryClient.invalidateQueries()
@@ -235,6 +245,35 @@ export function useDeleteSession(courseId: string, sessionId: string) {
     onSuccess: () => {
       queryClient.invalidateQueries();
       toast.success("Session deleted successfully 🗑️");
+    },
+    onError: (error: AxiosError) => {
+      return error;
+    },
+  });
+}
+
+export function useAddAssignment(courseId: string, setFormOpen: (isOpen: boolean) => void) {
+  return useMutation({
+    mutationKey: ["add-assignment"],
+    mutationFn: async (values: AssignmentSchema) => {
+      await axios.post(`/courses/${courseId}/submissions`, {
+        ...values,
+        deadlineTime: format(values.deadlineTime, "dd-MM-yyyy HH:mm:ss"),
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries()
+      toast.success("Assignment created successfully ✅", {
+        description: new Date().toLocaleString("id-ID", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+          hour: "numeric",
+          minute: "numeric",
+          second: "numeric",
+        }),
+      });
+      setFormOpen(false);
     },
     onError: (error: AxiosError) => {
       return error;

@@ -27,23 +27,25 @@ export default function UserSubmission() {
   );
 
   return (
-    <Table>
-      <TableCaption>A list of your needed submissions.</TableCaption>
-      <TableHeader>
-        <TableRow>
-          <TableHead>Name</TableHead>
-          <TableHead>Deadline</TableHead>
-          <TableHead>Course</TableHead>
-          <TableHead>Upload</TableHead>
-          <TableHead>Status</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {enrollments?.map((enrollment, index) => (
-          <UserSubmissionColumn key={index} enrollment={enrollment} />
-        ))}
-      </TableBody>
-    </Table>
+    <div className="flex flex-col gap-4">
+      <Table>
+        <TableCaption>A list of your needed submissions.</TableCaption>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Name</TableHead>
+            <TableHead>Deadline</TableHead>
+            <TableHead>Course</TableHead>
+            <TableHead>Upload</TableHead>
+            <TableHead>Status</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {enrollments?.map((enrollment, index) => (
+            <UserSubmissionColumn key={index} enrollment={enrollment} />
+          ))}
+        </TableBody>
+      </Table>
+    </div>
   );
 }
 
@@ -81,7 +83,7 @@ export function UserSubmissionRow({
   }
 
   return (
-    <TableRow>
+    <TableRow className="">
       <TableCell>{submission.title}</TableCell>
       <TableCell>{parseTimeFormatted(submission.deadlineTime)}</TableCell>
       <TableCell>{course?.name}</TableCell>

@@ -6,9 +6,13 @@ import UserSubmission from "./components/user-submission";
 
 export default function Submission() {
   const { data: userData } = useUserProfile();
+  const isLecturer = userData?.enrollments.some(
+    (enrollment) => enrollment.isLecturer
+  );
+
   return (
     <div className="layout flex flex-col p-10 min-h-screen gap-10">
-      {userData?.isAdmin ? <AdminSubmission /> : <UserSubmission />}
+      {isLecturer ? <AdminSubmission /> : <UserSubmission />}
     </div>
   );
 }

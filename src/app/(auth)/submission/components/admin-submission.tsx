@@ -22,7 +22,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Card } from "@/components/ui/card";
-import { AddAssignment } from "./add-assignment";
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -34,11 +34,20 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { AddAssignment } from "./add-assignment";
+import { useUserProfile } from "@/api/api-backend";
 
 export default function AdminSubmission() {
+  const { data } = useUserProfile();
+  const courseAsLecturer = data?.enrollments.filter(
+    (enrollment) => enrollment.isLecturer
+  );
+
   return (
-    <>
-      <AddAssignment />
+    <div className="flex flex-col gap-2">
+      {courseAsLecturer?.map((course, index) => (
+        <AddAssignment key={index} courseId={course.courseId} />
+      ))}
       <Table>
         <TableCaption>Manage submissions here.</TableCaption>
         <TableHeader>
@@ -125,6 +134,6 @@ export default function AdminSubmission() {
           ))}
         </TableBody>
       </Table>
-    </>
+    </div>
   );
 }

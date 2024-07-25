@@ -13,11 +13,19 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { LoaderCircle } from "lucide-react";
+import { CalendarIcon, LoaderCircle } from "lucide-react";
 import { sessionSchema, SessionSchema } from "@/validations/session-schema";
 import { useAddSession, useEditSession } from "@/api/api-backend";
 import { SessionDataType } from "@/types/session-data-type";
 import { format, parseISO } from "date-fns";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
+import { Calendar } from "@/components/ui/calendar";
+import { TimePicker } from "@/components/ui-interact/time-picker";
 
 export function FormAddSession({
   courseId,
@@ -53,12 +61,8 @@ export function FormAddSession({
     defaultValues: {
       title: session?.title,
       sessionNumber: session?.sessionNumber,
-      startTime: session
-        ? format(parseISO(session.startTime), "dd-MM-yyyy HH:mm:ss")
-        : "",
-      endTime: session
-        ? format(parseISO(session.endTime), "dd-MM-yyyy HH:mm:ss")
-        : "",
+      startTime: parseISO(session?.startTime || new Date().toISOString()),
+      endTime: parseISO(session?.endTime || new Date().toISOString()),
       meetingUrl: session?.meetingUrl,
     },
   });
@@ -111,16 +115,40 @@ export function FormAddSession({
           control={form.control}
           name="startTime"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel htmlFor="date">Start Time</FormLabel>
-              <FormControl className="grid gap-2">
-                <Input
-                  id="startTime"
-                  type="text"
-                  placeholder="dd-mm-yyyy hh:mm:ss"
-                  {...field}
-                />
-              </FormControl>
+            <FormItem className="flex flex-col">
+              <FormLabel htmlFor="startTime">Start Time</FormLabel>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <FormControl>
+                    <Button
+                      variant={"outline"}
+                      className={cn(
+                        "pl-3 text-left font-normal",
+                        !field.value && "text-muted-foreground"
+                      )}
+                    >
+                      {field.value ? (
+                        format(field.value, "PPP HH:mm:ss")
+                      ) : (
+                        <span>Pick a date</span>
+                      )}
+                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                    </Button>
+                  </FormControl>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={field.value}
+                    onSelect={field.onChange}
+                    disabled={(date) => date < new Date()}
+                    initialFocus
+                  />
+                  <div className="p-3 border-t border-border">
+                    <TimePicker setDate={field.onChange} date={field.value} />
+                  </div>
+                </PopoverContent>
+              </Popover>
               <FormMessage />
             </FormItem>
           )}
@@ -129,16 +157,40 @@ export function FormAddSession({
           control={form.control}
           name="endTime"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel htmlFor="date">End Time</FormLabel>
-              <FormControl className="grid gap-2">
-                <Input
-                  id="endTime"
-                  type="text"
-                  placeholder="dd-mm-yyyy hh:mm:ss"
-                  {...field}
-                />
-              </FormControl>
+            <FormItem className="flex flex-col">
+              <FormLabel htmlFor="endDate">End Time</FormLabel>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <FormControl>
+                    <Button
+                      variant={"outline"}
+                      className={cn(
+                        "pl-3 text-left font-normal",
+                        !field.value && "text-muted-foreground"
+                      )}
+                    >
+                      {field.value ? (
+                        format(field.value, "PPP HH:mm:ss")
+                      ) : (
+                        <span>Pick a date</span>
+                      )}
+                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                    </Button>
+                  </FormControl>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={field.value}
+                    onSelect={field.onChange}
+                    disabled={(date) => date < new Date()}
+                    initialFocus
+                  />
+                  <div className="p-3 border-t border-border">
+                    <TimePicker setDate={field.onChange} date={field.value} />
+                  </div>
+                </PopoverContent>
+              </Popover>
               <FormMessage />
             </FormItem>
           )}
@@ -148,7 +200,7 @@ export function FormAddSession({
           name="meetingUrl"
           render={({ field }) => (
             <FormItem>
-              <FormLabel htmlFor="text">Meeting URL</FormLabel>
+              <FormLabel htmlFor="meetingUrl">Meeting URL</FormLabel>
               <FormControl className="grid gap-2">
                 <Input
                   id="meetingUrl"

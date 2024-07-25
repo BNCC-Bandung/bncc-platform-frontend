@@ -9,6 +9,7 @@ import { LoginSchema } from "@/validations/login-schema";
 import { CourseDataType } from "@/types/course-data-type";
 import { queryClient } from "@/components/contexts/ReactQueryProvider";
 import { SessionSchema } from "@/validations/session-schema";
+import { SubmissionDataType } from "@/types/submission-data-type";
 
 async function getUserProfile() {
   try {
@@ -98,6 +99,21 @@ export function useGetAllCourses() {
       try {
         const response = await axios.get("/courses");
         return response.data.data.courses as CourseDataType[];
+      } catch (error) {
+        const axiosError = error as AxiosError<any>;
+        throw new Error(axiosError.response?.data.message);
+      }
+    },
+  });
+}
+
+export function useGetCourse(courseId: string) {
+  return useQuery({
+    queryKey: ["course", courseId],
+    queryFn: async () => {
+      try {
+        const response = await axios.get(`/courses/${courseId}`);
+        return response.data.data.course as CourseDataType;
       } catch (error) {
         const axiosError = error as AxiosError<any>;
         throw new Error(axiosError.response?.data.message);
@@ -221,6 +237,21 @@ export function useDeleteSession(courseId: string, sessionId: string) {
     },
     onError: (error: AxiosError) => {
       return error;
+    },
+  });
+}
+
+export function useGetAllSubmissions(courseId: string) {
+  return useQuery({
+    queryKey: ["submissions", courseId],
+    queryFn: async () => {
+      try {
+        const response = await axios.get(`/courses/${courseId}/submissions`);
+        return response.data.data.submissions as SubmissionDataType[];
+      } catch (error) {
+        const axiosError = error as AxiosError<any>;
+        throw new Error(axiosError.response?.data.message);
+      }
     },
   });
 }

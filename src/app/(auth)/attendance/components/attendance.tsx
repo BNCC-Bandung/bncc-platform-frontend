@@ -1,5 +1,4 @@
 "use client";
-import { useContext } from "react";
 import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { SessionCard } from "../../course/components/card-session";

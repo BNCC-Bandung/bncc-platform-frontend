@@ -9,7 +9,8 @@ import { LoginSchema } from "@/validations/login-schema";
 import { CourseDataType } from "@/types/course-data-type";
 import { queryClient } from "@/components/contexts/ReactQueryProvider";
 import { SessionSchema } from "@/validations/session-schema";
-import { SubmissionDataType } from "@/types/submission-data-type";
+import { CurrentSubmissionDataType, SubmissionDataType } from "@/types/submission-data-type";
+import { SubmissionSchema } from "@/validations/submission-schema";
 
 async function getUserProfile() {
   try {
@@ -252,6 +253,43 @@ export function useGetAllSubmissions(courseId: string) {
         const axiosError = error as AxiosError<any>;
         throw new Error(axiosError.response?.data.message);
       }
+    },
+  });
+}
+
+export function useGetSubmission(courseId: string, submissionId: string) {
+  return useQuery({
+    queryKey: ["submission", courseId, submissionId],
+    queryFn: async () => {
+      try {
+        const response = await axios.get(`/courses/${courseId}/submissions/${submissionId}/submit`);
+        return response.data.data.currentSubmission as CurrentSubmissionDataType;
+      } catch (error) {
+        const axiosError = error as AxiosError<any>;
+        throw new Error(axiosError.response?.data.message);
+      }
+    },
+  });
+}
+
+export function useSubmitSubmission(courseId: string, submissionId: string) {
+  return useMutation({
+    mutationKey: ["submit-submission"],
+    mutationFn: async (values: SubmissionSchema) => {
+      const formData = new FormData();
+      formData.append("submission", values.file[0]);
+      await axios.post(`/courses/${courseId}/submissions/${submissionId}/submit`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries();
+      toast.success("Submission uploaded successfully ✅");
+    },
+    onError: (error: AxiosError) => {
+      return error;
     },
   });
 }

@@ -38,6 +38,7 @@ function UpcomingCourse({ enrollment }: { enrollment: EnrollmentsCourseType }) {
           session={session}
           isAttendance={false}
           isButtonHidden={true}
+          isLecturer={enrollment.isLecturer}
         />
       ))}
     </>

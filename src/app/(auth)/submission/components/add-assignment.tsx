@@ -5,9 +5,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { CalendarIcon, Plus } from "lucide-react";
+import { CalendarIcon, LoaderCircle, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
 
 import { DialogHeader } from "@/components/ui/dialog";
 import {
@@ -19,67 +18,50 @@ import {
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { AxiosError } from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
 import { TimePicker } from "@/components/ui-interact/time-picker";
-import { toast } from "@/components/ui/use-toast";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+  assignmentSchema,
+  AssignmentSchema,
+} from "@/validations/assignment-schema";
+import { useAddAssignment, useGetCourse } from "@/api/api-backend";
+import { useState } from "react";
 
-const formSchema = z.object({
-  title: z.string(),
-  deadline: z.date(),
-  course: z.string(),
-});
+export function AddAssignment({ courseId }: { courseId: string }) {
+  const [isOpen, setIsOpen] = useState(false);
 
-export function AddAssignment() {
-  const [error, setError] = useState("");
-  const [date, setDate] = useState<Date>();
+  const { mutateAsync, error, isPending } = useAddAssignment(
+    courseId,
+    setIsOpen
+  );
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const { data: course } = useGetCourse(courseId);
+
+  const form = useForm<AssignmentSchema>({
+    resolver: zodResolver(assignmentSchema),
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
-    try {
-      toast({
-        title: "You submitted the following values:",
-        description: (
-          <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-            <code className="text-white">
-              {JSON.stringify(values, null, 2)}
-            </code>
-          </pre>
-        ),
-      });
-    } catch (err) {
-      const axiosError = err as AxiosError<any>;
-      setError(axiosError.response?.data.message);
-    }
+  async function onSubmit(values: AssignmentSchema) {
+    mutateAsync(values);
   }
+
   return (
-    <Dialog>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <Button variant="secondary">
           <Plus className="mr-1" />
-          Add Assignment
+          Add Assignment to {course?.name}
         </Button>
       </DialogTrigger>
       <DialogContent className="h-fit">
@@ -108,7 +90,7 @@ export function AddAssignment() {
             />
             <FormField
               control={form.control}
-              name="deadline"
+              name="deadlineTime"
               render={({ field }) => (
                 <FormItem className="flex flex-col">
                   <FormLabel>Deadline</FormLabel>
@@ -151,36 +133,23 @@ export function AddAssignment() {
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="course"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel htmlFor="text">Course</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <FormControl className="grid gap-2">
-                      <SelectTrigger className="w-full flex">
-                        <SelectValue placeholder="Theme" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent className="w-full">
-                      <SelectItem value="ui/ux">UI/UX</SelectItem>
-                      <SelectItem value="front-end">
-                        Front-end Development
-                      </SelectItem>
-                      <SelectItem value="back-end">
-                        Back-end Development
-                      </SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
+
+            {error && (
+              <FormDescription className="text-red-900">
+                {(error.response?.data as { message: string })?.message}
+              </FormDescription>
+            )}
+
+            <Button className="w-full" disabled={isPending}>
+              {isPending ? (
+                <>
+                  <span>Loading</span>
+                  <LoaderCircle className="animate-spin" />
+                </>
+              ) : (
+                "Add Assignment"
               )}
-            />
-            <Button className="w-full">Add Assingment</Button>
+            </Button>
           </form>
         </Form>
       </DialogContent>

@@ -3,7 +3,6 @@ import { Download, Eye, Trash } from "lucide-react";
 
 import {
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -31,15 +30,10 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { AddAssignment } from "./add-assignment";
-import {
-  useDeleteAssignment,
-  useGetAllSubmitted,
-  useUserProfile,
-} from "@/api/api-backend";
+import { useDeleteAssignment, useGetAllSubmitted } from "@/api/api-backend";
 
 import { useGetAllSubmissions, useGetCourse } from "@/api/api-backend";
 import { SubmissionDataType } from "@/types/submission-data-type";
-import { EnrollmentsCourseType } from "@/types/user-data-type";
 
 import { format, parse } from "date-fns";
 import { id } from "date-fns/locale";
@@ -48,22 +42,11 @@ import UnstyledLink from "@/components/link/unstyled-link";
 import { EditAssignment } from "./edit-assignment";
 import { CURRENT_DATE_FORMAT } from "@/lib/date";
 
-export default function AdminSubmission() {
-  const { data } = useUserProfile();
-  const courseAsLecturer = data?.enrollments.filter(
-    (enrollment) => enrollment.isLecturer
-  );
-  const enrollments = data?.enrollments.filter(
-    (enrollment) => enrollment.approved
-  );
-
+export default function AdminSubmission({ courseId }: { courseId: string }) {
   return (
     <div className="flex flex-col gap-2">
-      {courseAsLecturer?.map((course, index) => (
-        <AddAssignment key={index} courseId={course.courseId} />
-      ))}
+      <AddAssignment courseId={courseId} />
       <Table>
-        <TableCaption>Manage submissions here.</TableCaption>
         <TableHeader>
           <TableRow>
             <TableHead>Title</TableHead>
@@ -74,21 +57,15 @@ export default function AdminSubmission() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {enrollments?.map((enrollment, index) => (
-            <UserSubmissionColumn key={index} enrollment={enrollment} />
-          ))}
+          <UserSubmissionColumn courseId={courseId} />
         </TableBody>
       </Table>
     </div>
   );
 }
 
-function UserSubmissionColumn({
-  enrollment,
-}: {
-  enrollment: EnrollmentsCourseType;
-}) {
-  const { data } = useGetAllSubmissions(enrollment.courseId);
+function UserSubmissionColumn({ courseId }: { courseId: string }) {
+  const { data } = useGetAllSubmissions(courseId);
 
   return (
     <>

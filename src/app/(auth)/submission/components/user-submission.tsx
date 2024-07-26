@@ -2,17 +2,10 @@ import {
   useGetAllSubmissions,
   useGetCourse,
   useGetSubmission,
-  useUserProfile,
 } from "@/api/api-backend";
 import { Table, TableBody, TableCell } from "@/components/ui/table";
-import {
-  TableCaption,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { SubmissionDataType } from "@/types/submission-data-type";
-import { EnrollmentsCourseType } from "@/types/user-data-type";
 
 import { format, parse } from "date-fns";
 import { id } from "date-fns/locale";
@@ -21,16 +14,10 @@ import { CourseDataType } from "@/types/course-data-type";
 import { FormUploadSubmission } from "./user-submission-form";
 import { CURRENT_DATE_FORMAT } from "@/lib/date";
 
-export default function UserSubmission() {
-  const { data } = useUserProfile();
-  const enrollments = data?.enrollments.filter(
-    (enrollment) => enrollment.approved
-  );
-
+export default function UserSubmission({ courseId }: { courseId: string }) {
   return (
     <div className="flex flex-col gap-4">
       <Table>
-        <TableCaption>A list of your needed submissions.</TableCaption>
         <TableHeader>
           <TableRow>
             <TableHead>Name</TableHead>
@@ -41,21 +28,15 @@ export default function UserSubmission() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {enrollments?.map((enrollment, index) => (
-            <UserSubmissionColumn key={index} enrollment={enrollment} />
-          ))}
+          <UserSubmissionColumn courseId={courseId} />
         </TableBody>
       </Table>
     </div>
   );
 }
 
-function UserSubmissionColumn({
-  enrollment,
-}: {
-  enrollment: EnrollmentsCourseType;
-}) {
-  const { data } = useGetAllSubmissions(enrollment.courseId);
+function UserSubmissionColumn({ courseId }: { courseId: string }) {
+  const { data } = useGetAllSubmissions(courseId);
 
   return (
     <>
@@ -84,7 +65,7 @@ export function UserSubmissionRow({
   }
 
   return (
-    <TableRow className="">
+    <TableRow>
       <TableCell>{submission.title}</TableCell>
       <TableCell>{parseTimeFormatted(submission.deadlineTime)}</TableCell>
       <TableCell>{course?.name}</TableCell>

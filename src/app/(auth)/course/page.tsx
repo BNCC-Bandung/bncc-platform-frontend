@@ -10,6 +10,8 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { AddSession } from "./components/add-session";
+import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
 
 export default function CoursePage() {
   const { data } = useUserProfile();
@@ -33,7 +35,17 @@ export default function CoursePage() {
         {enrollments?.map((course, idx) => (
           <AccordionItem key={idx} value={`item-${idx}`}>
             <AccordionTrigger>
-              <h1 className="text-2xl font-bold">{course.course.name}</h1>
+              <div className="flex gap-2 items-center">
+                <Badge
+                  className={cn(
+                    "h-fit no-underline",
+                    course.isLecturer ? "bg-green-400" : "bg-blue-400"
+                  )}
+                >
+                  {course.isLecturer ? "Lecturer" : "Student"}
+                </Badge>
+                <h1 className="text-2xl font-bold">{course.course.name}</h1>
+              </div>
             </AccordionTrigger>
             <AccordionContent>
               {course.isLecturer && <AddSession courseId={course.courseId} />}

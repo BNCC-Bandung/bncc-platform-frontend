@@ -281,6 +281,35 @@ export function useAddAssignment(courseId: string, setFormOpen: (isOpen: boolean
   });
 }
 
+export function useEditAssignment(courseId: string, sessionId: string, setFormOpen: (isOpen: boolean) => void) {
+  return useMutation({
+    mutationKey: ["edit-assignment"],
+    mutationFn: async (values: AssignmentSchema) => {
+      await axios.put(`/courses/${courseId}/submissions/${sessionId}`, {
+        ...values,
+        deadlineTime: format(values.deadlineTime, "dd-MM-yyyy HH:mm:ss"),
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries()
+      toast.success("Assignment updated successfully ✅", {
+        description: new Date().toLocaleString("id-ID", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+          hour: "numeric",
+          minute: "numeric",
+          second: "numeric",
+        }),
+      });
+      setFormOpen(false);
+    },
+    onError: (error: AxiosError) => {
+      return error;
+    },
+  });
+}
+
 export function useGetAllSubmissions(courseId: string) {
   return useQuery({
     queryKey: ["submissions", courseId],

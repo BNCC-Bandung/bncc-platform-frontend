@@ -1,5 +1,5 @@
 import { Table } from "@/components/ui/table";
-import { Download, Eye, PencilIcon, Trash } from "lucide-react";
+import { Download, Eye, Trash } from "lucide-react";
 
 import {
   TableBody,
@@ -41,6 +41,7 @@ import { format, parse } from "date-fns";
 import { id } from "date-fns/locale";
 import { CourseDataType } from "@/types/course-data-type";
 import UnstyledLink from "@/components/link/unstyled-link";
+import { EditAssignment } from "./edit-assignment";
 
 export default function AdminSubmission() {
   const { data } = useUserProfile();
@@ -169,10 +170,10 @@ export function UserSubmissionRow({
             <Download size={15} />
           </UnstyledLink>
         </Button>
-        <Button variant="outline" className="space-x-2">
-          <span>Edit</span>
-          <PencilIcon size={15} />
-        </Button>
+        <EditAssignment
+          courseId={submission.courseId}
+          submission={submission}
+        />
         <AlertDialog>
           <AlertDialogTrigger asChild>
             <Button variant="destructive" className="space-x-2">

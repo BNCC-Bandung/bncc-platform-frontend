@@ -28,7 +28,6 @@ export function UpcomingCourses() {
 
 function UpcomingCourse({ enrollment }: { enrollment: EnrollmentsCourseType }) {
   const { data } = useUpcomingSessions(enrollment.courseId);
-  console.log(enrollment.courseId);
 
   return (
     <>

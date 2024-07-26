@@ -29,13 +29,13 @@ import { TimePicker } from "@/components/ui-interact/time-picker";
 
 export function FormAddSession({
   courseId,
-  session,
   setIsOpen,
+  session,
   isEditing = false,
 }: {
   courseId: string;
-  session?: SessionDataType;
   setIsOpen: (isOpen: boolean) => void;
+  session?: SessionDataType;
   isEditing?: boolean;
 }) {
   // Determine which hook to use based on isEditing flag

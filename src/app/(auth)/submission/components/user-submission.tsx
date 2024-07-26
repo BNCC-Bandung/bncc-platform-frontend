@@ -19,6 +19,7 @@ import { id } from "date-fns/locale";
 import { Badge } from "@/components/ui/badge";
 import { CourseDataType } from "@/types/course-data-type";
 import { FormUploadSubmission } from "./user-submission-form";
+import { CURRENT_DATE_FORMAT } from "@/lib/date";
 
 export default function UserSubmission() {
   const { data } = useUserProfile();
@@ -78,7 +79,7 @@ export function UserSubmissionRow({
   const { data: course } = useGetCourse(submission.courseId);
 
   function parseTimeFormatted(time: string) {
-    const parsedDate = parse(time, "dd-MM-yyyy HH:mm:ss", new Date());
+    const parsedDate = parse(time, CURRENT_DATE_FORMAT, new Date());
     return format(parsedDate, "dd MMMM yyyy - HH:mm", { locale: id });
   }
 

@@ -13,6 +13,7 @@ import { CurrentSubmissionDataType, SubmissionDataType, SubmittedDataType } from
 import { SubmissionSchema } from "@/validations/submission-schema";
 import { format } from "date-fns";
 import { AssignmentSchema } from "@/validations/assignment-schema";
+import { CURRENT_DATE_FORMAT } from "@/lib/date";
 
 async function getUserProfile() {
   try {
@@ -182,8 +183,8 @@ export function useAddSession(courseId: string, setFormOpen: (isOpen: boolean) =
     mutationFn: async (values: SessionSchema) => {
       await axios.post(`/courses/${courseId}/sessions`, {
         ...values,
-        startTime: format(values.startTime, "dd-MM-yyyy HH:mm:ss"),
-        endTime: format(values.endTime, "dd-MM-yyyy HH:mm:ss"),
+        startTime: format(values.startTime, CURRENT_DATE_FORMAT),
+        endTime: format(values.endTime, CURRENT_DATE_FORMAT),
       });
     },
     onSuccess: () => {
@@ -212,8 +213,8 @@ export function useEditSession(courseId: string, sessionId: string, setFormOpen:
     mutationFn: async (values: SessionSchema) => {
       await axios.put(`/courses/${courseId}/sessions/${sessionId}`, {
         ...values,
-        startTime: format(values.startTime, "dd-MM-yyyy HH:mm:ss"),
-        endTime: format(values.endTime, "dd-MM-yyyy HH:mm:ss"),
+        startTime: format(values.startTime, CURRENT_DATE_FORMAT),
+        endTime: format(values.endTime, CURRENT_DATE_FORMAT),
       });
     },
     onSuccess: () => {
@@ -258,7 +259,7 @@ export function useAddAssignment(courseId: string, setFormOpen: (isOpen: boolean
     mutationFn: async (values: AssignmentSchema) => {
       await axios.post(`/courses/${courseId}/submissions`, {
         ...values,
-        deadlineTime: format(values.deadlineTime, "dd-MM-yyyy HH:mm:ss"),
+        deadlineTime: format(values.deadlineTime, CURRENT_DATE_FORMAT),
       });
     },
     onSuccess: () => {
@@ -287,7 +288,7 @@ export function useEditAssignment(courseId: string, sessionId: string, setFormOp
     mutationFn: async (values: AssignmentSchema) => {
       await axios.put(`/courses/${courseId}/submissions/${sessionId}`, {
         ...values,
-        deadlineTime: format(values.deadlineTime, "dd-MM-yyyy HH:mm:ss"),
+        deadlineTime: format(values.deadlineTime, CURRENT_DATE_FORMAT),
       });
     },
     onSuccess: () => {

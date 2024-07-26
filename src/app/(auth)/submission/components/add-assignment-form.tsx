@@ -28,6 +28,7 @@ import { CalendarIcon, LoaderCircle } from "lucide-react";
 import { useAddAssignment, useEditAssignment } from "@/api/api-backend";
 import { Button } from "@/components/ui/button";
 import { SubmissionDataType } from "@/types/submission-data-type";
+import { CURRENT_DATE_FORMAT } from "@/lib/date";
 
 export function FormAddAssignment({
   courseId,
@@ -61,8 +62,8 @@ export function FormAddAssignment({
     defaultValues: {
       title: submission?.title,
       deadlineTime: parse(
-        submission?.deadlineTime || new Date().toISOString(),
-        "dd-MM-yyyy HH:mm:ss",
+        submission?.deadlineTime || format(new Date(), CURRENT_DATE_FORMAT),
+        CURRENT_DATE_FORMAT,
         new Date()
       ),
     },

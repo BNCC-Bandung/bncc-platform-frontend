@@ -105,6 +105,8 @@ export function UserSubmissionRow({
   );
   const { data: course } = useGetCourse(submission.courseId);
 
+  const hasSubmitted = submitted?.submits?.length ?? 0 > 0 ? true : false;
+
   function parseTimeFormatted(time: string) {
     const parsedDate = parse(time, "dd-MM-yyyy HH:mm:ss", new Date());
     return format(parsedDate, "dd MMMM yyyy - HH:mm", { locale: id });
@@ -118,8 +120,8 @@ export function UserSubmissionRow({
       <TableCell className="text-center">
         <Dialog>
           <DialogTrigger asChild>
-            <Button variant="secondary">
-              <Eye className="mr-1" />
+            <Button variant="secondary" disabled={!hasSubmitted}>
+              <Eye className="mr-1" size={15} />
               Open
             </Button>
           </DialogTrigger>
@@ -153,19 +155,29 @@ export function UserSubmissionRow({
         </Dialog>
       </TableCell>
       <TableCell className="space-x-1 text-center">
-        <Button variant="outline" className="space-x-2">
-          <span>Batch Download</span>
-          <Download />
+        <Button
+          variant="outline"
+          className="space-x-2"
+          disabled={!hasSubmitted}
+        >
+          <UnstyledLink
+            href={`${process.env.NEXT_PUBLIC_API_ENDPOINT}/courses/${submission.courseId}/submissions/${submission.id}/download`}
+            target="_blank"
+            className="flex items-center space-x-1"
+          >
+            <span>Batch Download</span>
+            <Download size={15} />
+          </UnstyledLink>
         </Button>
         <Button variant="outline" className="space-x-2">
           <span>Edit</span>
-          <PencilIcon />
+          <PencilIcon size={15} />
         </Button>
         <AlertDialog>
           <AlertDialogTrigger asChild>
-            <Button variant="outline" className="space-x-2">
+            <Button variant="destructive" className="space-x-2">
               <span>Delete</span>
-              <Trash className="text-red-400" />
+              <Trash size={15} />
             </Button>
           </AlertDialogTrigger>
           <AlertDialogContent>

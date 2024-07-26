@@ -310,6 +310,22 @@ export function useEditAssignment(courseId: string, sessionId: string, setFormOp
   });
 }
 
+export function useDeleteAssignment(courseId: string, submissionId: string) {
+  return useMutation({
+    mutationKey: ["delete-assignment"],
+    mutationFn: async () => {
+      await axios.delete(`/courses/${courseId}/submissions/${submissionId}`);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries();
+      toast.success("Assignment deleted successfully 🗑️");
+    },
+    onError: (error: AxiosError) => {
+      return error;
+    },
+  });
+}
+
 export function useGetAllSubmissions(courseId: string) {
   return useQuery({
     queryKey: ["submissions", courseId],

@@ -31,7 +31,11 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { AddAssignment } from "./add-assignment";
-import { useGetAllSubmitted, useUserProfile } from "@/api/api-backend";
+import {
+  useDeleteAssignment,
+  useGetAllSubmitted,
+  useUserProfile,
+} from "@/api/api-backend";
 
 import { useGetAllSubmissions, useGetCourse } from "@/api/api-backend";
 import { SubmissionDataType } from "@/types/submission-data-type";
@@ -105,6 +109,11 @@ export function UserSubmissionRow({
     submission.id
   );
   const { data: course } = useGetCourse(submission.courseId);
+
+  const { mutateAsync: deleteAssignment } = useDeleteAssignment(
+    submission.courseId,
+    submission.id
+  );
 
   const hasSubmitted = submitted?.submits?.length ?? 0 > 0 ? true : false;
 
@@ -191,7 +200,9 @@ export function UserSubmissionRow({
             </AlertDialogHeader>
             <AlertDialogFooter>
               <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction>Continue</AlertDialogAction>
+              <AlertDialogAction onClick={() => deleteAssignment()}>
+                Continue
+              </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>

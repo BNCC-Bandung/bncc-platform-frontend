@@ -11,4 +11,8 @@ interface CurrentSubmissionDataType {
     uploadTime: string
 }
 
-export type { SubmissionDataType, CurrentSubmissionDataType };
+interface SubmittedDataType extends SubmissionDataType {
+    submits: CurrentSubmissionDataType[];
+}
+
+export type { SubmissionDataType, CurrentSubmissionDataType, SubmittedDataType };

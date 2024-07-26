@@ -9,10 +9,11 @@ import { LoginSchema } from "@/validations/login-schema";
 import { CourseDataType } from "@/types/course-data-type";
 import { queryClient } from "@/components/contexts/ReactQueryProvider";
 import { SessionSchema } from "@/validations/session-schema";
-import { CurrentSubmissionDataType, SubmissionDataType } from "@/types/submission-data-type";
+import { CurrentSubmissionDataType, SubmissionDataType, SubmittedDataType } from "@/types/submission-data-type";
 import { SubmissionSchema } from "@/validations/submission-schema";
 import { format } from "date-fns";
 import { AssignmentSchema } from "@/validations/assignment-schema";
+import { use } from "react";
 
 async function getUserProfile() {
   try {
@@ -329,6 +330,21 @@ export function useSubmitSubmission(courseId: string, submissionId: string) {
     },
     onError: (error: AxiosError) => {
       return error;
+    },
+  });
+}
+
+export function useGetAllSubmitted(courseId: string, submissionId: string) {
+  return useQuery({
+    queryKey: ["submitted", courseId, submissionId],
+    queryFn: async () => {
+      try {
+        const response = await axios.get(`/courses/${courseId}/submissions/${submissionId}`);
+        return response.data.data.submission as SubmittedDataType;
+      } catch (error) {
+        const axiosError = error as AxiosError<any>;
+        throw new Error(axiosError.response?.data.message);
+      }
     },
   });
 }

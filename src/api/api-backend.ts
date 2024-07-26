@@ -13,7 +13,6 @@ import { CurrentSubmissionDataType, SubmissionDataType, SubmittedDataType } from
 import { SubmissionSchema } from "@/validations/submission-schema";
 import { format } from "date-fns";
 import { AssignmentSchema } from "@/validations/assignment-schema";
-import { use } from "react";
 
 async function getUserProfile() {
   try {

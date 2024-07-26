@@ -40,6 +40,7 @@ import { EnrollmentsCourseType } from "@/types/user-data-type";
 import { format, parse } from "date-fns";
 import { id } from "date-fns/locale";
 import { CourseDataType } from "@/types/course-data-type";
+import UnstyledLink from "@/components/link/unstyled-link";
 
 export default function AdminSubmission() {
   const { data } = useUserProfile();
@@ -137,9 +138,14 @@ export function UserSubmissionRow({
                       {item.uploadTime}
                     </p>
                   </div>
-                  <Button variant="secondary">
-                    Download <Download className="ml-2" size={15} />
-                  </Button>
+                  <UnstyledLink
+                    href={`${process.env.NEXT_PUBLIC_API_ENDPOINT}/courses/download/${item.url}`}
+                    target="_blank"
+                  >
+                    <Button variant="secondary">
+                      Download <Download className="ml-2" size={15} />
+                    </Button>
+                  </UnstyledLink>
                 </Card>
               ))}
             </div>

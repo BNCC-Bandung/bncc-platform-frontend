@@ -11,7 +11,7 @@ export default async function RootLayout({
   return (
     <>
       <Header />
-      <div className="min-h-screen bg-background font-sans antialiased">
+      <div className="min-h-[calc(100vh-3.5rem)] bg-background font-sans antialiased">
         {children}
       </div>
       <Footer />

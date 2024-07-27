@@ -14,6 +14,7 @@ import { SubmissionSchema } from "@/validations/submission-schema";
 import { format } from "date-fns";
 import { AssignmentSchema } from "@/validations/assignment-schema";
 import { CURRENT_DATE_FORMAT } from "@/lib/date";
+import { AttendancesType } from "@/types/attendance-type";
 
 async function getUserProfile() {
   try {
@@ -386,6 +387,36 @@ export function useGetAllSubmitted(courseId: string, submissionId: string) {
       try {
         const response = await axios.get(`/courses/${courseId}/submissions/${submissionId}`);
         return response.data.data.submission as SubmittedDataType;
+      } catch (error) {
+        const axiosError = error as AxiosError<any>;
+        throw new Error(axiosError.response?.data.message);
+      }
+    },
+  });
+}
+
+export function useAddAttendance() {
+  return useMutation({
+    mutationKey: ["add-attendance"],
+    mutationFn: async (values: { NIM: string; fullName: string }) => {
+      await axios.post("/attendances", values);
+    },
+    onSuccess: () => {
+      toast.success("Attendance created successfully ✅");
+    },
+    onError: (error: AxiosError) => {
+      return error;
+    },
+  });
+}
+
+export function useGetAllAttendance(sessionId: string) {
+  return useQuery({
+    queryKey: ["attendance", sessionId],
+    queryFn: async () => {
+      try {
+        const response = await axios.get(`/attendances/sessions/${sessionId}`);
+        return response.data.data as AttendancesType;
       } catch (error) {
         const axiosError = error as AxiosError<any>;
         throw new Error(axiosError.response?.data.message);

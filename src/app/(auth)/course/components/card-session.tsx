@@ -154,10 +154,11 @@ export function SessionCard({
               </div>
             ) : (
               <UnstyledLink
-                href={`/attendance/${session.courseId}`}
+                href={`/attendance/${session.id}`}
                 nextLinkProps={{ passHref: true }}
+                className="w-full justify-end items-center flex gap-2"
               >
-                <Button variant="secondary" size="sm" className="w-full gap-2">
+                <Button variant="secondary" size="sm">
                   See Attendance
                   <LogIn size={15} />
                 </Button>

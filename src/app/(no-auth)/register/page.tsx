@@ -14,7 +14,7 @@ import StyledLink from "@/components/link/styled-link";
 
 export default function RegisterForm() {
   return (
-    <div className="flex justify-center items-center min-h-screen">
+    <div className="flex justify-center items-center min-h-[calc(100vh-3.5rem)]">
       <Card className="w-full max-w-sm">
         <CardHeader>
           <CardTitle className="flex justify-center">

@@ -27,18 +27,17 @@ export function Courses({
 
   return (
     <>
-      {sessionsData &&
-        sessionsData.map((session, index) => {
-          return (
-            <SessionCard
-              key={index}
-              session={session}
-              isAttendance={false}
-              isButtonHidden={false}
-              isLecturer={isLecturer}
-            />
-          );
-        })}
+      {sessionsData?.map((session, index) => {
+        return (
+          <SessionCard
+            key={index}
+            session={session}
+            isAttendance={false}
+            isButtonHidden={false}
+            isLecturer={isLecturer}
+          />
+        );
+      })}
     </>
   );
 }

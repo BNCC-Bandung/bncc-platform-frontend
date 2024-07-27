@@ -20,30 +20,29 @@ export function AvailableCourses() {
 
   return (
     <>
-      {coursesData &&
-        coursesData.map((course, index) => {
-          return (
-            <CourseCard
-              key={index}
-              course={course}
-              enrolled={userData?.enrollments?.some(
+      {coursesData?.map((course, index) => {
+        return (
+          <CourseCard
+            key={index}
+            course={course}
+            enrolled={userData?.enrollments?.some(
+              (enrollment) => enrollment.courseId === course.id
+            )}
+            approved={userData?.enrollments?.some(
+              (enrollment) =>
+                enrollment.courseId === course.id && enrollment.approved
+            )}
+            isLecturer={
+              userData?.enrollments?.find(
                 (enrollment) => enrollment.courseId === course.id
-              )}
-              approved={userData?.enrollments?.some(
-                (enrollment) =>
-                  enrollment.courseId === course.id && enrollment.approved
-              )}
-              isLecturer={
-                userData?.enrollments?.find(
-                  (enrollment) => enrollment.courseId === course.id
-                )?.isLecturer
-              }
-              //   session={session}
-              //   isAttendance={false}
-              //   isButtonHidden={false}
-            />
-          );
-        })}
+              )?.isLecturer
+            }
+            //   session={session}
+            //   isAttendance={false}
+            //   isButtonHidden={false}
+          />
+        );
+      })}
     </>
   );
 }

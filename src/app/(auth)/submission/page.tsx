@@ -47,7 +47,7 @@ export default function Submission() {
   }
 
   return (
-    <div className="layout flex flex-col p-10 min-h-screen">
+    <div className="layout flex flex-col p-10 min-h-[calc(100vh-3.5rem)]">
       <Accordion
         type="multiple"
         defaultValue={userData?.enrollments.map(

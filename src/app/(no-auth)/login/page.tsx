@@ -39,7 +39,7 @@ export default function LoginForm() {
   }
 
   return (
-    <div className="flex justify-center items-center min-h-screen">
+    <div className="flex justify-center items-center min-h-[calc(100vh-3.5rem)]">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <Card className="w-full max-w-sm">

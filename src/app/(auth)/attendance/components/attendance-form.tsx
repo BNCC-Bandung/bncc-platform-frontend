@@ -11,10 +11,8 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 
 import {
   Form,
@@ -25,36 +23,21 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-
-import type { AxiosError } from "axios";
-
-import { useRouter } from "next/navigation";
-
-import { useState } from "react";
-import be from "@/api/axios-instance";
-
-const formSchema = z.object({
-  NIM: z.string().refine((value) => /^\d{10}$/.test(value), {
-    message: "NIM must be a string with exactly 10 numeric characters",
-  }),
-  fullName: z.string().min(1, { message: "Fullname must not be empty" }),
-});
+import {
+  attendanceSchema,
+  AttendanceSchema,
+} from "@/validations/attendance-schema";
+import { useAddAttendance } from "@/api/api-backend";
 
 export function AttendaceForm() {
-  const [error, setError] = useState("");
-  const router = useRouter();
-
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const { mutateAsync, error } = useAddAttendance();
+  const form = useForm<AttendanceSchema>({
+    resolver: zodResolver(attendanceSchema),
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
-    try {
-      const response = await be.post("/attendances", values);
-    } catch (err) {
-      const axiosError = err as AxiosError<any>;
-      setError(axiosError.response?.data.message);
-    }
+  async function onSubmit(values: AttendanceSchema) {
+    await mutateAsync(values);
+    form.reset();
   }
 
   return (
@@ -108,11 +91,9 @@ export function AttendaceForm() {
             />
           </CardContent>
           <CardFooter className="flex-col gap-4">
-            {error && (
-              <FormDescription className="text-red-900">
-                {error}
-              </FormDescription>
-            )}
+            <FormDescription className="text-red-900">
+              {(error?.response?.data as { message: string })?.message}
+            </FormDescription>
             <Button className="w-full">Attend</Button>
           </CardFooter>
         </Card>

@@ -1,3 +1,5 @@
+import { SessionDataType } from "./session-data-type";
+
 interface AttendType {
     status: number;
     track: {
@@ -5,15 +7,20 @@ interface AttendType {
     };
 }
 
-interface AttendanceType {
+interface AttendanceType extends AttendType {
     fullName: string;
     attendTime: string;
     status: number;
 }
 
 interface UserAttendanceType {
-    NIM: string;
+    userId: string;
     fullName: string;
 }
 
-export type { AttendType, AttendanceType, UserAttendanceType };
+interface AttendancesType {
+    session: SessionDataType;
+    userAttendances: AttendanceType[];
+}
+
+export type { AttendType, AttendanceType, UserAttendanceType, AttendancesType };

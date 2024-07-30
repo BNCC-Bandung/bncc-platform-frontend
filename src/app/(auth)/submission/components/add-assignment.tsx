@@ -20,21 +20,19 @@ export function AddAssignment({ courseId }: { courseId: string }) {
   const { data: course } = useGetCourse(courseId);
 
   return (
-    <>
-      <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogTrigger asChild>
-          <Button variant="secondary">
-            <Plus className="mr-1" />
-            Add Assignment to {course?.name}
-          </Button>
-        </DialogTrigger>
-        <DialogContent className="h-fit">
-          <DialogHeader>
-            <DialogTitle>Add Assignment</DialogTitle>
-          </DialogHeader>
-          <FormAddAssignment courseId={courseId} setIsOpen={setIsOpen} />
-        </DialogContent>
-      </Dialog>
-    </>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <DialogTrigger asChild>
+        <Button variant="secondary">
+          <Plus className="mr-1" />
+          Add Assignment to {course?.name}
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="h-fit">
+        <DialogHeader>
+          <DialogTitle>Add Assignment</DialogTitle>
+        </DialogHeader>
+        <FormAddAssignment courseId={courseId} setIsOpen={setIsOpen} />
+      </DialogContent>
+    </Dialog>
   );
 }

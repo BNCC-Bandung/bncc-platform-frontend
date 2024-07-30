@@ -18,8 +18,14 @@ interface UserAttendanceType {
     fullName: string;
 }
 
+interface AttendanceTotalType {
+    totalUserAttendance: number;
+    totalUserNotAttendance: number;
+}
+
 interface AttendancesType {
     session: SessionDataType;
+    attendanceData: AttendanceTotalType;
     userAttendances: AttendanceType[];
 }
 

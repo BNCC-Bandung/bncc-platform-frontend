@@ -25,7 +25,7 @@ async function getUserProfile() {
   }
 }
 
-async function refreshToken() {
+export async function refreshToken() {
   try {
     await axios.post("/auth/refresh");
     await getUserProfile();

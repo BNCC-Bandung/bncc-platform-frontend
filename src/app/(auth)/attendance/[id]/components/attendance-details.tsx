@@ -7,6 +7,7 @@ import { AttendanceList } from "./attendance-list";
 import { SessionCard } from "@/app/(auth)/course/components/card-session";
 import { useGetAllAttendance } from "@/api/api-backend";
 import { Skeleton } from "@/components/ui/skeleton";
+import UnstyledLink from "@/components/link/unstyled-link";
 
 export function AttendanceDetails({ id }: { id: string }) {
   const { data } = useGetAllAttendance(id);
@@ -35,20 +36,29 @@ export function AttendanceDetails({ id }: { id: string }) {
           <Card className="w-full h-fit flex bg-red-400/30">
             <CardHeader className="text-center w-full">
               <h1 className="text-2xl font-bold">Absent</h1>
-              <span className="font-bold text-4xl">0</span>
+              <span className="font-bold text-4xl">
+                {data.attendanceData.totalUserNotAttendance}
+              </span>
             </CardHeader>
           </Card>
           <Card className="w-full h-fit flex bg-green-400/30">
             <CardHeader className="text-center w-full">
               <h1 className="text-2xl font-bold">Present</h1>
-              <span className="font-bold text-4xl">0</span>
+              <span className="font-bold text-4xl">
+                {data.attendanceData.totalUserAttendance}
+              </span>
             </CardHeader>
           </Card>
         </div>
 
-        <Button variant="secondary" className="w-full space-x-2 text-md">
-          <span>Export to Excel</span>
-          <FileDown size={20} />
+        <Button variant="secondary">
+          <UnstyledLink
+            href={`${process.env.NEXT_PUBLIC_API_ENDPOINT}/attendances/sessions/${data.session.id}/excel/download`}
+            className="w-full flex justify-center text-center space-x-2 text-md"
+          >
+            <span>Export to Excel</span>
+            <FileDown size={20} />
+          </UnstyledLink>
         </Button>
       </div>
 

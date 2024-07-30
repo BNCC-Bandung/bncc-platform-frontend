@@ -1,5 +1,12 @@
-import { Card, CardHeader } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import {
+  Card,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { AttendanceType } from "@/types/attendance-type";
+import { format, parseISO } from "date-fns";
 import { Frown } from "lucide-react";
 
 export function AttendanceList({ data }: { data: AttendanceType[] }) {
@@ -8,9 +15,18 @@ export function AttendanceList({ data }: { data: AttendanceType[] }) {
   }
   return data.map((attendance, index) => (
     <Card key={index} className="w-full h-fit flex">
-      <CardHeader className="text-center w-full">
-        <h1 className="text-2xl font-bold">{attendance.fullName}</h1>
-        <span className="font-bold text-4xl">{attendance.attendTime}</span>
+      <CardHeader className="w-full flex flex-row justify-between">
+        <div>
+          <CardTitle>{attendance.fullName}</CardTitle>
+          <CardDescription>
+            {format(parseISO(attendance.attendTime), "PPP HH:mm:ss")}
+          </CardDescription>
+        </div>
+        <div>
+          <Badge variant={attendance.status === 0 ? "default" : "destructive"}>
+            {attendance.status === 0 ? "On Time" : "Late"}
+          </Badge>
+        </div>
       </CardHeader>
     </Card>
   ));

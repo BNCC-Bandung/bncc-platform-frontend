@@ -25,6 +25,7 @@ interface EnrollmentsCourseType {
     userId: string;
     approved: boolean;
     course: CourseDataType;
+    user: UserDataType;
 }
 
 interface UserProfileType extends UserDataType {

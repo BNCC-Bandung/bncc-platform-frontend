@@ -1,6 +1,6 @@
 import { toast } from "sonner"
 import axios from "./axios-instance";
-import { UserProfileType } from "@/types/user-data-type";
+import { EnrollmentsCourseType, UserProfileType } from "@/types/user-data-type";
 import { SessionDataType } from "@/types/session-data-type";
 import { AxiosError } from "axios";
 import { useMutation, useQuery, UseQueryOptions } from "@tanstack/react-query";
@@ -487,6 +487,53 @@ export function useDeleteCourse() {
     onSuccess: () => {
       queryClient.invalidateQueries();
       toast.success("Course deleted successfully 🗑️");
+    },
+    onError: (error: AxiosError) => {
+      return error;
+    },
+  })
+}
+
+export function useGetAllEnrollments(courseId: string) {
+  return useQuery({
+    queryKey: ["enrollments", courseId],
+    queryFn: async () => {
+      try {
+        const response = await axios.get(`/courses/${courseId}/enrollment`);
+        return response.data.data.enrollments as EnrollmentsCourseType[];
+      } catch (error) {
+        const axiosError = error as AxiosError<any>;
+        throw new Error(axiosError.response?.data.message);
+      }
+    }
+  })
+}
+
+export function useApproveEnrollment(courseId: string, NIM: string) {
+  return useMutation({
+    mutationKey: ["approve-enrollment"],
+    mutationFn: async () => {
+      await axios.put(`/courses/${courseId}/enrollment/${NIM}`);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries();
+      toast.success("Enrollment approved successfully ✅");
+    },
+    onError: (error: AxiosError) => {
+      return error;
+    },
+  })
+}
+
+export function useSetLecturerEnrollment(courseId: string, NIM: string) {
+  return useMutation({
+    mutationKey: ["set-lecturer-enrollment"],
+    mutationFn: async () => {
+      await axios.put(`/courses/${courseId}/enrollment/${NIM}/lecturer`);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries();
+      toast.success("Enrollment set as lecturer successfully ✅");
     },
     onError: (error: AxiosError) => {
       return error;

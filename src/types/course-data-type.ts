@@ -1,6 +1,6 @@
 interface CourseDataType {
     id: string
-    period: string;
+    period: number;
     name: string;
 }
 

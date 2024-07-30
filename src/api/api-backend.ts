@@ -15,6 +15,7 @@ import { format } from "date-fns";
 import { AssignmentSchema } from "@/validations/assignment-schema";
 import { CURRENT_DATE_FORMAT } from "@/lib/date";
 import { AttendancesType } from "@/types/attendance-type";
+import { CourseSchema } from "@/validations/course-schema";
 
 async function getUserProfile() {
   try {
@@ -423,4 +424,72 @@ export function useGetAllAttendance(sessionId: string) {
       }
     },
   });
+}
+
+export function useAddCourse(setFormOpen: (isOpen: boolean) => void) {
+  return useMutation({
+    mutationKey: ["add-course"],
+    mutationFn: async (values: CourseSchema) => {
+      await axios.post("/courses", values);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries();
+      toast.success("Course created successfully ✅", {
+        description: new Date().toLocaleString("id-ID", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+          hour: "numeric",
+          minute: "numeric",
+          second: "numeric",
+        }),
+      });
+      setFormOpen(false);
+    },
+    onError: (error: AxiosError) => {
+      return error;
+    },
+  })
+}
+
+export function useEditCourse(courseId: string, setFormOpen: (isOpen: boolean) => void) {
+  return useMutation({
+    mutationKey: ["edit-course"],
+    mutationFn: async (values: CourseSchema) => {
+      await axios.put(`/courses/${courseId}`, values);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries();
+      toast.success("Course updated successfully ✅", {
+        description: new Date().toLocaleString("id-ID", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+          hour: "numeric",
+          minute: "numeric",
+          second: "numeric",
+        }),
+      });
+      setFormOpen(false);
+    },
+    onError: (error: AxiosError) => {
+      return error;
+    },
+  })
+}
+
+export function useDeleteCourse() {
+  return useMutation({
+    mutationKey: ["delete-course"],
+    mutationFn: async (courseId: string) => {
+      await axios.delete(`/courses/${courseId}`);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries();
+      toast.success("Course deleted successfully 🗑️");
+    },
+    onError: (error: AxiosError) => {
+      return error;
+    },
+  })
 }

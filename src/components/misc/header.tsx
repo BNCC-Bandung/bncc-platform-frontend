@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import { ModeToggle } from "../theme/theme-toggle";
-import { SelectPeriod } from "../ui-interact/select-period";
 import Navigation from "./navigation";
 import { Button } from "../ui/button";
 
@@ -26,7 +25,7 @@ export default function Header() {
 
         <Navigation />
         <div className="flex gap-2 items-center text-sm">
-          <SelectPeriod />
+          {/* <SelectPeriod /> */}
           <ModeToggle />
           <Button
             variant="destructive"

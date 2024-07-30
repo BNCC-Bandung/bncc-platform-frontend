@@ -1,7 +1,6 @@
 "use client";
 
 import { useUserProfile } from "@/api/api-backend";
-import { AvailableCourses } from "./components/available-courses";
 import { Courses } from "./components/courses";
 import {
   Accordion,
@@ -12,6 +11,7 @@ import {
 import { AddSession } from "./components/add-session";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import { AvailableCourses } from "./components/available-courses";
 
 export default function CoursePage() {
   const { data } = useUserProfile();
@@ -22,16 +22,7 @@ export default function CoursePage() {
   return (
     <div className="layout flex flex-col p-10 min-h-[calc(100vh-3.5rem)]">
       <Accordion type="single" collapsible defaultValue="item-0">
-        <AccordionItem value="item-main">
-          <AccordionTrigger>
-            <h1 className="text-2xl font-bold">Available Courses</h1>
-          </AccordionTrigger>
-          <AccordionContent>
-            <div className="grid grid-cols-3 gap-4">
-              <AvailableCourses />
-            </div>
-          </AccordionContent>
-        </AccordionItem>
+        {!data?.isAdmin && <AvailableCourses />}
         {enrollments?.map((course, idx) => (
           <AccordionItem key={idx} value={`item-${idx}`}>
             <AccordionTrigger>

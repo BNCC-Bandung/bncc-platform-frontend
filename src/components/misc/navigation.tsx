@@ -12,8 +12,6 @@ import { useUserProfile } from "@/api/api-backend";
 export default function Navigation() {
   const { data } = useUserProfile();
 
-  console.log(data);
-
   switch (data?.isAdmin) {
     case true:
       return (

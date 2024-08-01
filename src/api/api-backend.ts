@@ -29,7 +29,6 @@ async function getUserProfile() {
 export async function refreshToken() {
   try {
     await axios.post("/auth/refresh");
-    await getUserProfile();
   } catch (err) {
     const axiosError = err as AxiosError<any>;
     throw new Error(axiosError.response?.data.message);

@@ -140,7 +140,9 @@ export function useEnrollCourse() {
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries()
+      queryClient.invalidateQueries(
+        { queryKey: ["profile"] }
+      )
     }
   });
 }
@@ -158,7 +160,9 @@ export function useUnenrollCourse() {
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries()
+      queryClient.invalidateQueries(
+        { queryKey: ["profile"] }
+      )
     }
   });
 }
@@ -189,7 +193,9 @@ export function useAddSession(courseId: string, setFormOpen: (isOpen: boolean) =
       });
     },
     onSuccess: () => {
-      queryClient.invalidateQueries()
+      queryClient.invalidateQueries(
+        { queryKey: ["sessions", courseId] }
+      )
       toast.success("Session created successfully ✅", {
         description: new Date().toLocaleString("id-ID", {
           year: "numeric",
@@ -219,7 +225,9 @@ export function useEditSession(courseId: string, sessionId: string, setFormOpen:
       });
     },
     onSuccess: () => {
-      queryClient.invalidateQueries()
+      queryClient.invalidateQueries(
+        { queryKey: ["sessions", courseId] }
+      )
       toast.success("Session updated successfully ✅", {
         description: new Date().toLocaleString("id-ID", {
           year: "numeric",
@@ -245,7 +253,9 @@ export function useDeleteSession(courseId: string, sessionId: string) {
       await axios.delete(`/courses/${courseId}/sessions/${sessionId}`);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries();
+      queryClient.invalidateQueries(
+        { queryKey: ["sessions", courseId] }
+      );
       toast.success("Session deleted successfully 🗑️");
     },
     onError: (error: AxiosError) => {
@@ -264,7 +274,9 @@ export function useAddAssignment(courseId: string, setFormOpen: (isOpen: boolean
       });
     },
     onSuccess: () => {
-      queryClient.invalidateQueries()
+      queryClient.invalidateQueries(
+        { queryKey: ["submissions", courseId] }
+      )
       toast.success("Assignment created successfully ✅", {
         description: new Date().toLocaleString("id-ID", {
           year: "numeric",
@@ -293,7 +305,9 @@ export function useEditAssignment(courseId: string, sessionId: string, setFormOp
       });
     },
     onSuccess: () => {
-      queryClient.invalidateQueries()
+      queryClient.invalidateQueries(
+        { queryKey: ["submissions", courseId] }
+      )
       toast.success("Assignment updated successfully ✅", {
         description: new Date().toLocaleString("id-ID", {
           year: "numeric",
@@ -319,7 +333,9 @@ export function useDeleteAssignment(courseId: string, submissionId: string) {
       await axios.delete(`/courses/${courseId}/submissions/${submissionId}`);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries();
+      queryClient.invalidateQueries(
+        { queryKey: ["submissions", courseId] }
+      );
       toast.success("Assignment deleted successfully 🗑️");
     },
     onError: (error: AxiosError) => {
@@ -371,7 +387,9 @@ export function useSubmitSubmission(courseId: string, submissionId: string) {
       });
     },
     onSuccess: () => {
-      queryClient.invalidateQueries();
+      queryClient.invalidateQueries(
+        { queryKey: ["submissions", courseId] }
+      );
       toast.success("Submission uploaded successfully ✅");
     },
     onError: (error: AxiosError) => {
@@ -432,7 +450,9 @@ export function useAddCourse(setFormOpen: (isOpen: boolean) => void) {
       await axios.post("/courses", values);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries();
+      queryClient.invalidateQueries(
+        { queryKey: ["courses"] }
+      );
       toast.success("Course created successfully ✅", {
         description: new Date().toLocaleString("id-ID", {
           year: "numeric",
@@ -458,7 +478,9 @@ export function useEditCourse(courseId: string, setFormOpen: (isOpen: boolean) =
       await axios.put(`/courses/${courseId}`, values);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries();
+      queryClient.invalidateQueries(
+        { queryKey: ["courses"] }
+      );
       toast.success("Course updated successfully ✅", {
         description: new Date().toLocaleString("id-ID", {
           year: "numeric",
@@ -484,7 +506,9 @@ export function useDeleteCourse() {
       await axios.delete(`/courses/${courseId}`);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries();
+      queryClient.invalidateQueries(
+        { queryKey: ["courses"] }
+      );
       toast.success("Course deleted successfully 🗑️");
     },
     onError: (error: AxiosError) => {
@@ -515,7 +539,9 @@ export function useApproveEnrollment(courseId: string, NIM: string) {
       await axios.put(`/courses/${courseId}/enrollment/${NIM}`);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries();
+      queryClient.invalidateQueries(
+        { queryKey: ["enrollments", courseId] }
+      );
       toast.success("Enrollment approved successfully ✅");
     },
     onError: (error: AxiosError) => {
@@ -531,7 +557,9 @@ export function useSetLecturerEnrollment(courseId: string, NIM: string) {
       await axios.put(`/courses/${courseId}/enrollment/${NIM}/lecturer`);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries();
+      queryClient.invalidateQueries(
+        { queryKey: ["enrollments", courseId] }
+      );
       toast.success("Enrollment set as lecturer successfully ✅");
     },
     onError: (error: AxiosError) => {
